@@ -92,22 +92,23 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @keyframes rotella { to { transform: rotate(360deg); } }
 
 /* ---------- HEADER + NAV ---------- */
-/* Trasparente in cima alla pagina; diventa colorato allo scroll (attributo #scrollato gestito da script.js) */
+/* Sempre sfondo TRASPARENTE con BLUR (vetro sfumato). L'attributo #scrollato
+   gestito da script.js aumenta solo l'intensità del colore/ombra allo scroll. */
 #header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 110;
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 clamp(16px, 4vw, 48px);
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background .4s ease, border-color .4s ease, box-shadow .4s ease, backdrop-filter .4s ease;
+  background: rgba(13, 17, 23, .25);           /* trasparente + tinta brand leggera */
+  backdrop-filter: blur(14px) saturate(140%);  /* effetto vetro ALWAYS ON */
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
 #header[scrollato="si"] {
-  background: rgba(13, 17, 23, .82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(64, 201, 255, .14);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+  background: rgba(13, 17, 23, .55);           /* più leggibile allo scroll, sempre vetro */
+  border-bottom: 1px solid rgba(64, 201, 255, .18);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
 }
 #corpo-pagina { padding-top: var(--header-h); }
 #logo-link { display: flex; align-items: center; }
