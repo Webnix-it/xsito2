@@ -39,6 +39,28 @@
     setTimeout(chiudi, 4000); // timeout di sicurezza
   }
 
+  /* ---------- HEADER NAV: trasparente in cima, colorato allo scroll ---------- */
+  function inizializzaHeaderScroll() {
+    var header = document.getElementById("header");
+    if (!header) return;
+    var ultima = -1;
+    function aggiorna() {
+      var y = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (y === ultima) return;
+      ultima = y;
+      if (y > 40) header.setAttribute("scrollato", "si");
+      else header.removeAttribute("scrollato");
+    }
+    // passive listener per prestazioni elevate; requestAnimationFrame come throttle
+    var inCorso = false;
+    window.addEventListener("scroll", function () {
+      if (inCorso) return;
+      inCorso = true;
+      requestAnimationFrame(function () { aggiorna(); inCorso = false; });
+    }, { passive: true });
+    aggiorna(); // stato iniziale corretto anche con pagina già scorrata (es. reload a metà)
+  }
+
   /* ---------- MENU MOBILE (drawer <=900px) ---------- */
   function inizializzaMenu() {
     var hamburger = document.getElementById("hamburger");
@@ -434,6 +456,7 @@
   /* ---------- AVVIO ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     avviaLoader();
+    inizializzaHeaderScroll();
     inizializzaMenu();
     inizializzaScrollFluido();
     renderServizi();
