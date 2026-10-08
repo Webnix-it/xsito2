@@ -29,7 +29,7 @@
 
 /* ---------- RESET / BASE ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; overflow-x: hidden; }
 body {
   background: var(--sfondo);
   color: var(--testo);
@@ -228,8 +228,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* ---------- SEZIONI ---------- */
 .sezione-comune { padding: clamp(70px, 9vw, 120px) clamp(18px, 5vw, 60px); max-width: 1240px; margin: 0 auto; }
-#intestazione-sezione { text-align: center; margin-bottom: clamp(40px, 6vw, 64px); }
-#eyebrow-sezione { display: inline-block; font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--ciano); margin-bottom: 14px; }
+.intestazione-sezione { text-align: center; margin-bottom: clamp(40px, 6vw, 64px); }
+.eyebrow-sezione { display: inline-block; font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--ciano); margin-bottom: 14px; }
 .titoli-sezione { font-size: clamp(1.6rem, 4vw, 2.5rem); line-height: 1.2; margin-bottom: 14px; }
 .sottotitolo-sezione { color: var(--testo-3); max-width: 70ch; margin: 0 auto; }
 
@@ -454,4 +454,7 @@ details.domanda[open] summary { color: var(--ciano); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   [reveal] { opacity: 1; transform: none; }
+  /* Loader: barra piena istantanea, niente rotazione dell'anello */
+  #loader-anello2 { animation: none; }
+  #loader-progresso2 { width: 100% !important; transition: none !important; }
 }

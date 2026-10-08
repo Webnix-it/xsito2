@@ -51,11 +51,13 @@
       if (window.innerWidth > 900) return; // drawer attivo solo <=900px
       drawer.setAttribute("aperto", "si");
       overlay.setAttribute("aperto", "si");
+      hamburger.setAttribute("aria-expanded", "true"); // stato aperto irrobustito
       document.body.style.overflow = "hidden";
     }
     function chiudi() {
       drawer.removeAttribute("aperto");
       overlay.removeAttribute("aperto");
+      hamburger.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
     }
     hamburger.addEventListener("click", apri);
@@ -404,13 +406,14 @@
       "link-instagram": CFG.social.instagram,
       "link-facebook": CFG.social.facebook,
       "link-whatsapp": waLink(),
+      "link-whatsapp-info": waLink(),
       "link-whatsapp-hero": waLink(),
       "link-email": "mailto:" + CFG.contact.email,
       "link-tel": "tel:+" + CFG.contact.phoneRaw
     };
     Object.keys(map).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.href = map[id];
+      // querySelectorAll: gestisce anche id duplicati (es. link-whatsapp in info contatti + footer)
+      document.querySelectorAll('[id="' + id + '"]').forEach(function (el) { el.href = map[id]; });
     });
     var logoH = document.getElementById("logo-header");
     if (logoH) logoH.src = CFG.logoHeader;
