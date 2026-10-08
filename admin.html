@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Webnix | Gestione Recensioni</title>
+  <meta name="description" content="Pannello amministrativo Webnix per la gestione delle recensioni (Firebase Realtime Database).">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="corpo-pagina">
+
+    <!-- ============ LOADER GLOBALE ============ -->
+    <div id="global-loader2">
+      <div id="loader-anello2">
+        <div id="loader-interno2">
+          <span id="loader-nome2">WEBNIX</span>
+          <span id="loader-sotto2">Digital Agency</span>
+        </div>
+      </div>
+      <span id="loader-testo2">Caricamento in corso...</span>
+      <div id="loader-barra2"><div id="loader-progresso2"></div></div>
+    </div>
+
+    <!-- ============ HEADER + NAV ============ -->
+    <header id="header">
+      <a id="logo-link" href="index.html" aria-label="Webnix home">
+        <img id="logo-header" src="loghi/WEBNIX.png" alt="Webnix — Digital Agency">
+      </a>
+      <nav id="nav-desk" aria-label="Navigazione principale">
+        <a href="index.html">Home</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="faq.html">FAQ</a>
+        <a href="assistenza.html">Assistenza</a>
+        <a href="chi-siamo.html">Chi Siamo</a>
+        <a href="contatti.html">Contatti</a>
+        <a href="admin.html" attivo="si">Admin</a>
+        <a id="link-bozza-nav" href="index.html#contatti">Bozza Gratuita</a>
+      </nav>
+      <button id="hamburger" type="button" aria-label="Apri menu" aria-expanded="false">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <div id="overlay-mobile"></div>
+    <aside id="drawer-mobile" aria-label="Menu mobile">
+      <button id="chiusura-drawer" type="button" aria-label="Chiudi menu">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <nav id="nav-mobile">
+        <a href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i>Home</a>
+        <a href="servizi.html"><i class="fa-solid fa-briefcase" aria-hidden="true"></i>Servizi</a>
+        <a href="faq.html"><i class="fa-solid fa-circle-question" aria-hidden="true"></i>FAQ</a>
+        <a href="assistenza.html"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>Assistenza</a>
+        <a href="chi-siamo.html"><i class="fa-solid fa-users" aria-hidden="true"></i>Chi Siamo</a>
+        <a href="contatti.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i>Contatti</a>
+        <a href="admin.html"><i class="fa-solid fa-user-shield" aria-hidden="true"></i>Admin</a>
+      </nav>
+      <a id="bottone-bozza-drawer" href="index.html#contatti">
+        <button id="bottone1-footer" type="button">
+          <span id="bottone1-footer-bianco" class="livello"></span>
+          <span id="bottone1-footer-turchese" class="livello"></span>
+          <span id="bottone1-footer-blu" class="livello"></span>
+          <span id="bottone1-footer-testo"><strong>Bozza gratis in 48h</strong><small>Zero costi, zero impegno</small></span>
+          <span id="bottone1-footer-alt">Richiedi ora →</span>
+        </button>
+      </a>
+    </aside>
+
+    <section id="banda-pagina">
+      <h1>Area Admin</h1>
+      <p>Gestione recensioni del sito. I dati seguono la struttura Firebase: name, text, url, stars, timestamp.</p>
+    </section>
+
+    <section id="sezione-admin" class="sezione-comune">
+      <div id="pannello-admin">
+        <p id="stato-admin" reveal><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Stato: connessione al database in corso…</p>
+
+        <!-- Nuovo inserimento manuale (scrive via REST PUT su config.firebase) -->
+        <form id="modulo-admin-recensione" reveal delay="1" style="background:#161b22;border-radius:16px;padding:28px;margin-bottom:30px;border:1px solid rgba(255,255,255,.08);">
+          <h3 style="margin-bottom:18px;"><i class="fa-solid fa-plus" aria-hidden="true"></i> Aggiungi recensione</h3>
+          <div class="campo-modulo">
+            <label for="admin-nome">Nome cliente <b>*</b></label>
+            <input id="admin-nome" type="text" placeholder="Es. Mario Rossi" required>
+          </div>
+          <div class="campo-modulo">
+            <label for="admin-stelle">Stelle <b>*</b></label>
+            <select id="admin-stelle">
+              <option value="5">★★★★★ (5)</option>
+              <option value="4">★★★★ (4)</option>
+              <option value="3">★★★ (3)</option>
+              <option value="2">★★ (2)</option>
+              <option value="1">★ (1)</option>
+            </select>
+          </div>
+          <div class="campo-modulo">
+            <label for="admin-url">Link progetto (opzionale)</label>
+            <input id="admin-url" type="url" placeholder="https://...">
+          </div>
+          <div class="campo-modulo">
+            <label for="admin-testo">Testo recensione (max 1000 caratteri) <b>*</b></label>
+            <textarea id="admin-testo" maxlength="1000" placeholder="Cosa ha detto il cliente..."></textarea>
+            <p id="contatore-caratteri"></p>
+          </div>
+          <button class="btn_seleziona" type="submit" id="pulsante-invio">Salva recensione nel database</button>
+          <p id="messaggio-modulo" role="status"></p>
+        </form>
+
+        <!-- Elenco locale (localStorage) come demo/offline -->
+        <div id="box-info-contatti" reveal delay="2">
+          <h3 style="margin-bottom:14px;">Recensioni salvate localmente (demo offline)</h3>
+          <div id="griglia-recensioni"></div>
+          <p id="avviso-demo-recensioni"></p>
+          <p style="margin-top:18px;"><button id="bottone2" type="button"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> Svuota elenco locale</button></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer id="footer">
+      <div id="griglia-footer">
+        <div>
+          <img id="logo-footer" src="WEBNIX-Logo-Solo-Simbolo-(1).png" alt="Simbolo Webnix">
+          <p style="color:#adadad;">Siti web in codice pulito per nuove attività. Dimentica WordPress.</p>
+          <div id="social-footer">
+            <a id="link-instagram" href="https://www.instagram.com/webnix.it" target="_blank" rel="noopener" aria-label="Instagram Webnix"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a id="link-facebook" href="https://www.facebook.com/people/Webnix-Digital-Agency/61582890411506/" target="_blank" rel="noopener" aria-label="Facebook Webnix"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+            <a id="link-whatsapp" href="https://wa.me/14132259397" target="_blank" rel="noopener" aria-label="WhatsApp Webnix"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Navigazione</h4>
+          <a href="index.html">Home</a>
+          <a href="servizi.html">Servizi</a>
+          <a href="faq.html">FAQ</a>
+          <a href="assistenza.html">Assistenza</a>
+        </div>
+        <div>
+          <h4>Azienda</h4>
+          <a href="chi-siamo.html">Chi Siamo</a>
+          <a href="contatti.html">Contatti</a>
+          <a href="admin.html">Admin</a>
+          <a href="index.html#portfolio">Portfolio</a>
+        </div>
+        <div>
+          <h4>Contatti</h4>
+          <a href="mailto:webnixit@gmail.com">webnixit@gmail.com</a>
+          <a href="tel:+14132259397">+1 413 225 9397</a>
+          <a href="index.html#contatti">Bozza gratuita 48h</a>
+        </div>
+      </div>
+      <div id="riga-copyright">
+        <strong id="anno-copyright">© 2026 Webnix</strong> · Tutti i diritti riservati · Realizzato con solo HTML, CSS e JavaScript
+      </div>
+    </footer>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
