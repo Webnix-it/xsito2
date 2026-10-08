@@ -92,21 +92,22 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @keyframes rotella { to { transform: rotate(360deg); } }
 
 /* ---------- HEADER + NAV ---------- */
-/* Sempre sfondo TRASPARENTE con BLUR (vetro sfumato). L'attributo #scrollato
-   gestito da script.js aumenta solo l'intensità del colore/ombra allo scroll. */
+/* In cima alla pagina: NAVBAR COMPLETAMENTE TRASPARENTE (zero fondo, zero blur).
+   Quando scorri (script.js imposta scrollato="si"): diventa VETRO — sfondo
+   trasparente colorato + blur. Transizione fluida su tutti i livelli. */
 #header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 110;
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 clamp(16px, 4vw, 48px);
-  background: rgba(13, 17, 23, .25);           /* trasparente + tinta brand leggera */
-  backdrop-filter: blur(14px) saturate(140%);  /* effetto vetro ALWAYS ON */
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
 }
 #header[scrollato="si"] {
-  background: rgba(13, 17, 23, .55);           /* più leggibile allo scroll, sempre vetro */
+  background: rgba(13, 17, 23, .35);           /* vetro trasparente colorato */
+  backdrop-filter: blur(14px) saturate(140%);  /* blur SOLO dopo lo scroll */
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid rgba(64, 201, 255, .18);
   box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
 }
@@ -114,13 +115,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #logo-link { display: flex; align-items: center; }
 #logo-header { height: 44px; width: auto; }
 #nav-desk { display: flex; align-items: center; gap: clamp(10px, 1.6vw, 26px); }
-#nav-desk a { color: var(--testo-2); font-weight: 600; font-size: .95rem; padding: 8px 4px; position: relative; transition: color .25s; white-space: nowrap; }
-#nav-desk a:hover, #nav-desk a[attivo="si"] { color: #fff; }
+#nav-desk a { color: var(--testo-2); font-weight: 600; font-size: .95rem; padding: 8px 4px; position: relative; transition: color .25s, transform .3s cubic-bezier(.22,1,.36,1); white-space: nowrap; display: inline-block; }
+#nav-desk a:hover { color: #fff; transform: scale(1.2); z-index: 1; } /* zoom 1.2 al passaggio */
+#nav-desk a[attivo="si"] { color: #fff; }
 #nav-desk a::after { content: ""; position: absolute; left: 0; bottom: 2px; width: 0; height: 2px; background: var(--gradiente-brand); transition: width .3s; border-radius: 2px; }
 #nav-desk a:hover::after, #nav-desk a[attivo="si"]::after { width: 100%; }
 
 /* CTA nav desktop = mini #bottone1 già sotto; qui versione link diretto al form */
 #link-bozza-nav { color: #fff !important; background: var(--gradiente-brand); padding: 9px 18px !important; border-radius: 999px; box-shadow: 0 0 16px rgba(232,28,255,.4); }
+#link-bozza-nav:hover { transform: scale(1.2); } /* zoom anche sulla CTA "Bozza Gratuita" */
 #link-bozza-nav::after { display: none; }
 
 /* Hamburger */
@@ -165,10 +168,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 60px clamp(18px, 5vw, 40px);
   background:
-    radial-gradient(900px 500px at 85% -10%, rgba(64,201,255,.22), transparent 60%),
-    radial-gradient(900px 500px at 10% 110%, rgba(232,28,255,.22), transparent 60%),
+    radial-gradient(900px 500px at 85% -10%, rgb(0 0 0 / 0%), #00000021 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(232, 28, 255, .22), #0000008a 60%),
     var(--gradiente-brand);
-  background-blend-mode: normal, normal, soft-light;
   position: relative; overflow: hidden;
 }
 #hero::after { /* vignettatura per leggibilità */
