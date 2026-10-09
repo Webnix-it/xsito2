@@ -825,7 +825,10 @@ details.domanda summary:hover {
 
 /* ---------- FOOTER ---------- */
 #footer {
-  background-color: #000000;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgb(0 0 0 / 0%), #00000021 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(232, 28, 255, .22), #0000008a 60%),
+    var(--gradiente-brand);
   font-size: medium;
   width: 100%;
   margin-top: 40px;
