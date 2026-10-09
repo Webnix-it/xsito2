@@ -366,27 +366,110 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 .metrica span { color: var(--testo-3); font-size: .88rem; }
 
-/* ---------- COME FUNZIONA: timeline 4 step ---------- */
-#timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-#timeline::before { content: ""; position: absolute; top: 34px; left: 6%; right: 6%; height: 3px; background: linear-gradient(90deg, var(--viola), var(--ciano)); border-radius: 3px; opacity: .6; }
-.step-timeline { text-align: center; position: relative; padding-top: 0; }
-.wrapper-icona-step {
-  width: 68px; height: 68px; margin: 0 auto 20px; border-radius: 50%;
-  background: var(--sfondo-card-2); border: 2px solid var(--viola);
-  display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 1;
-  box-shadow: 0 0 20px rgba(232,28,255,.45);
+/* ---------- COME FUNZIONA: SEZIONE PROCESSO — TIMELINE ORIZZONTALE MINIMAL SENZA CARD ---------- */
+#sezione-processo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(70px, 9vw, 120px) clamp(18px, 5vw, 60px);
 }
-.step-timeline:nth-child(even) .wrapper-icona-step { border-color: var(--ciano); box-shadow: 0 0 20px rgba(64,201,255,.45); }
-.icona-step { width: 30px; height: 30px; display: block; }
-.step-timeline h3 {
+
+#titoloprocesso {
+  font-family: 'Cocogoose', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#fraseprocesso {
+  font-size: 1.2rem;
+  color: #adadad;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* --- TIMELINE ORIZZONTALE --- */
+.timeline-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 40px;
+  padding: 50px 20px;
+  max-width: 1200px;
+  scrollbar-width: none; /* Nasconde scrollbar su Firefox */
+  -ms-overflow-style: none; /* Nasconde scrollbar su IE/Edge */
+}
+
+.timeline-container::-webkit-scrollbar {
+  display: none; /* Nasconde scrollbar su Chrome/Safari */
+}
+
+.timeline-step {
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Linea di connessione tra i passi */
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 120px;
+  width: calc(100% + 40px);
+  height: 2px;
+  background: linear-gradient(90deg, #e81cff, #40c9ff);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Cerchio con icona SVG */
+.step-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(-45deg, #e81cff, #40c9ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(232, 28, 255, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.timeline-step:hover .step-icon-wrapper {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 0 30px rgba(232, 28, 255, 0.8);
+}
+
+.step-icon {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Titolo dello step */
+.step-title {
   font-family: 'Cocogoose', sans-serif;
   font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 8px;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-align: center;
 }
-.step-timeline p { color: var(--testo-3); font-size: .92rem; }
-.step-timeline .tempo { display: inline-block; margin-top: 10px; font-size: .78rem; letter-spacing: 1px; color: var(--ciano); border: 1px solid rgba(64,201,255,.4); padding: 3px 12px; border-radius: 999px; }
+
+/* Descrizione dello step */
+.step-description {
+  font-size: 0.95rem;
+  color: #cccccc;
+  line-height: 1.5;
+  text-align: center;
+}
 
 /* ---------- SERVIZI (trasparenza radicale) ---------- */
 #griglia-servizi { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: stretch; }
@@ -590,8 +673,6 @@ details.domanda[open] summary { color: var(--ciano); }
   #nav-desk { display: none; }
   #hamburger { display: flex; }
   #confronto { grid-template-columns: 1fr; }
-  #timeline { grid-template-columns: 1fr 1fr; gap: 34px; }
-  #timeline::before { display: none; }
   #contenitore-form { grid-template-columns: 1fr; }
   #griglia2 { justify-items: center; }
   #cards { flex-direction: row; }
@@ -600,7 +681,6 @@ details.domanda[open] summary { color: var(--ciano); }
   :root { --header-h: 64px; }
   #hero { min-height: calc(100svh - var(--header-h)); }
   #fila-cta-hero { flex-direction: column; }
-  #timeline { grid-template-columns: 1fr; }
   #metriche-noi { grid-template-columns: 1fr; }
   #logo2 { width: 90px; }
   #voto-medio { font-size: 2.4rem; }
