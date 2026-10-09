@@ -15,7 +15,7 @@
     var loader = document.getElementById("global-loader2");
     if (!loader) return;
     document.body.style.overflow = "hidden"; // scroll lock
-    var barra = document.getElementById("loader-progresso2");
+    var barra = document.getElementById("progress-bar-fill2");
     var p = 0;
     var timer = setInterval(function () {
       p = Math.min(100, p + Math.random() * 18 + 6);
