@@ -113,14 +113,28 @@
     });
   }
 
-  /* ---------- REVEAL SCROLL (IntersectionObserver one-shot) ---------- */
+  /* ---------- REVEAL SCROLL (IntersectionObserver one-shot, con MutationObserver) ---------- */
   function inizializzaReveal() {
-    var elementi = document.querySelectorAll("[reveal]");
     var ridotto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var tutti = function () { return document.querySelectorAll("[reveal]"); };
+
     if (ridotto || !("IntersectionObserver" in window)) {
-      elementi.forEach(function (el) { el.setAttribute("visible", "si"); });
+      /* Fallback accessibilita / browser vecchi: mostra subito tutto */
+      var rivelaTutto = function () {
+        tutti().forEach(function (el) { el.setAttribute("visible", "si"); });
+      };
+      rivelaTutto();
+      /* Gli elementi generati da JS (card servizi/portfolio) arrivano dopo: li mostriamo comunque */
+      if ("MutationObserver" in window) {
+        var mutOld = new MutationObserver(rivelaTutto);
+        mutOld.observe(document.body, { childList: true, subtree: true });
+      } else {
+        setTimeout(rivelaTutto, 400);
+        setTimeout(rivelaTutto, 1200);
+      }
       return;
     }
+
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (voce) {
         if (voce.isIntersecting) {
@@ -129,7 +143,34 @@
         }
       });
     }, { threshold: 0.15 });
-    elementi.forEach(function (el) { obs.observe(el); });
+
+    /* Osserva gli elementi gia presenti */
+    tutti().forEach(function (el) { obs.observe(el); });
+
+    /* FIX CARD NASCOSTE: le card di servizi e portfolio sono create da JS DOPO il
+      DOMContentLoaded; senza questo osservatore resterebbero a opacity:0 perche'
+       mai registrate nell'IntersectionObserver. Il MutationObserver aggancia al volo
+       ogni nuovo elemento [reveal] aggiunto nel documento. */
+    var mut = new MutationObserver(function (cambiamenti) {
+      cambiamenti.forEach(function (c) {
+        c.addedNodes.forEach(function (nodo) {
+          if (nodo.nodeType !== 1) return;
+          if (nodo.hasAttribute && nodo.hasAttribute("reveal")) obs.observe(nodo);
+          if (nodo.querySelectorAll) {
+            nodo.querySelectorAll("[reveal]").forEach(function (el) { obs.observe(el); });
+          }
+        });
+      });
+    });
+    mut.observe(document.body, { childList: true, subtree: true });
+
+    /* Reti lenta: se qualcosa e' gia nel viewport prima del render JS, forzo un controllo */
+    setTimeout(function () {
+      tutti().forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.setAttribute("visible", "si");
+      });
+    }, 900);
   }
 
   /* ---------- RENDER SERVIZI (da config.js) ---------- */

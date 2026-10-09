@@ -5,7 +5,7 @@
    Nessun framework, nessun altro linguaggio.
    ============================================================ */
 
-const WEBNIX_CONFIG = {
+var WEBNIX_CONFIG = {
   /* ---------- BRAND ---------- */
   brand: "Webnix",
   brandFull: "Webnix Digital Agency",
@@ -246,3 +246,12 @@ function waLink(testo) {
   const msg = encodeURIComponent(testo || WEBNIX_CONFIG.whatsappMessage);
   return WEBNIX_CONFIG.social.whatsappBase + "?text=" + msg;
 }
+
+/* ============================================================
+   EXPORT SU window — FONDAMENTALE: in JavaScript, una variabile
+   dichiarata con "var" al livello PIU' ESTERNO di un file non e'
+   garantita come proprieta' dell'oggetto window. script.js legge
+   la configurazione tramite window.WEBNIX_CONFIG: senza questa
+   riga CFG resta null e le 5 card dei servizi NON vengono create.
+   ============================================================ */
+window.WEBNIX_CONFIG = WEBNIX_CONFIG;
