@@ -146,18 +146,53 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #nav-desk a:hover { background: var(--viola); transform: scale(1.2); z-index: 1; } /* zoom 1.2 + fondo brand */
 #nav-desk a[attivo="si"] { background: rgba(232, 28, 255, .28); }
 /* Il bordo SVG scatta verso il segmento corrispondente al link hoverato (pathLength=100) */
-#nav-desk a:nth-child(1):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 1.6 7.9 74.7 7.9 10; }
-#nav-desk a:nth-child(2):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 11.8 8.6 50.8 8.6 31.6; }
-#nav-desk a:nth-child(3):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 22.3 7.2 31.9 7.2 53.9; }
-#nav-desk a:nth-child(4):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 31.9 8.6 16.1 8.6 59.3; }
-#nav-desk a:nth-child(5):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 43 9.4 0 9.4 47.7; }
-#nav-desk a:nth-child(6):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 53.9 8.6 0 8.6 38.4; }
-#nav-desk a:nth-child(7):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 62.5 7.2 0 7.2 32.6; }
-#nav-desk a:nth-child(8):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 71.1 7.9 0 7.9 22.6; }
+#nav-desk a:nth-child(1):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 2.3 10.5 76.7 10.5 0; }
+#nav-desk a:nth-child(2):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 12.8 10.5 54.9 10.5 22.8; }
+#nav-desk a:nth-child(3):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 23.3 10.5 33.1 10.5 44.1; }
+#nav-desk a:nth-child(4):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 33.8 10.5 11.3 10.5 65.4; }
+#nav-desk a:nth-child(5):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 44.3 10.5 0 10.5 76.2; }
+#nav-desk a:nth-child(6):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 54.8 10.5 0 10.5 65.7; }
+#nav-desk a:nth-child(7):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 65.3 10.5 0 10.5 55.2; }
+#nav-desk a:nth-child(8):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 75.8 10.5 0 10.5 44.7; }
 
-/* CTA "Bozza Gratuita" nella nav: pillola gradiente brand + glow */
-#link-bozza-nav { color: #fff !important; background: var(--gradiente-brand) !important; border-radius: 999px; box-shadow: 0 0 16px rgba(232,28,255,.4); }
-#link-bozza-nav:hover { transform: scale(1.2); } /* zoom anche sulla CTA */
+/* CTA "Bozza Gratuita" nella nav: stile Uiverse gharsh11032000, colori Webnix.
+   ::before (nascosto sotto) = gradiente brand; ::after (visibile) = testo che scorre via. */
+#link-bozza-nav {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 190px; height: 46px;
+  border-radius: 10px;
+  font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  color: transparent;                            /* il testo vero vive nei pannelli ::before/::after */
+  background: transparent;
+  box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
+  overflow: hidden;
+  transition: all .3s cubic-bezier(.23, 1, .32, 1);
+  flex-shrink: 0;
+}
+#link-bozza-nav::before {
+  content: "Bozza Gratuita";
+  position: absolute; inset: 0; z-index: 99;
+  display: flex; align-items: center; justify-content: center;
+  color: #ffffff; pointer-events: none;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand */
+  transform: translate(0%, 90%); transform-origin: bottom;
+  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+}
+#link-bozza-nav::after {
+  content: "Bozza gratis in 48h \2192";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #e8e8e8; background-color: #1e1e1e;     /* card scura del brand */
+  pointer-events: none;
+  transform: translate(0%, -100%); transform-origin: top;
+  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+}
+#link-bozza-nav:hover::before, #link-bozza-nav:focus-visible::before, #link-bozza-nav[attivo="si"]::before { transform: translate(0%, 0%); }
+#link-bozza-nav:hover::after,  #link-bozza-nav:focus-visible::after,  #link-bozza-nav[attivo="si"]::after  { transform: translate(0%, -200%); }
+#link-bozza-nav:focus { outline: none; }
+#link-bozza-nav:active { scale: .95; }
+#link-bozza-nav:hover { background: transparent; transform: none; } /* niente zoom: vale lo scroll dei pannelli */
 
 /* Hamburger */
 #hamburger {
@@ -200,10 +235,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   min-height: calc(100vh - var(--header-h));
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 60px clamp(18px, 5vw, 40px);
-  background:
-    radial-gradient(900px 500px at 85% -10%, rgb(0 0 0 / 0%), #00000021 60%),
-    radial-gradient(900px 500px at 10% 110%, rgba(232, 28, 255, .22), #0000008a 60%),
-    var(--gradiente-brand);
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand pieno */
   position: relative; overflow: hidden;
 }
 #hero::after { /* vignettatura per leggibilità */
@@ -238,7 +270,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
   content: attr(data-sopra);
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%; pointer-events: none;
-  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand */
+  background-color: #1e1e1e;                     /* fondo scuro del brand (leggibile sull'hero) */
+  color: #ffffff;
   transform: translate(0%, 90%);
   z-index: 99; position: relative; transform-origin: bottom;
   transition: all .6s cubic-bezier(.23, 1, .32, 1);
@@ -246,8 +279,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #bottone1::after, #bottone1-footer::after {
   content: attr(data-sotto);
   display: flex; align-items: center; justify-content: center;
-  background-color: #1e1e1e;                    /* card scura del brand */
-  color: #e8e8e8;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand all'hover */
+  color: #ffffff;
   width: 100%; height: 100%; pointer-events: none;
   transform-origin: top;
   transform: translate(0%, -100%);
