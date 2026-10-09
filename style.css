@@ -143,17 +143,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
   transition: background .15s ease, transform .3s cubic-bezier(.22,1,.36,1);
   white-space: nowrap; display: inline-block; text-decoration: none;
 }
-#nav-desk a:hover { background: var(--viola); transform: scale(1.2); z-index: 1; } /* zoom 1.2 + fondo brand */
+#nav-desk a:not(#link-bozza-nav):hover { background: var(--viola); transform: scale(1.2); z-index: 1; } /* zoom 1.2 + fondo brand */
 #nav-desk a[attivo="si"] { background: rgba(232, 28, 255, .28); }
-/* Il bordo SVG scatta verso il segmento corrispondente al link hoverato (pathLength=100) */
-#nav-desk a:nth-child(1):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 2.3 10.5 76.7 10.5 0; }
-#nav-desk a:nth-child(2):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 12.8 10.5 54.9 10.5 22.8; }
-#nav-desk a:nth-child(3):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 23.3 10.5 33.1 10.5 44.1; }
-#nav-desk a:nth-child(4):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 33.8 10.5 11.3 10.5 65.4; }
-#nav-desk a:nth-child(5):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 44.3 10.5 0 10.5 76.2; }
-#nav-desk a:nth-child(6):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 54.8 10.5 0 10.5 65.7; }
-#nav-desk a:nth-child(7):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 65.3 10.5 0 10.5 55.2; }
-#nav-desk a:nth-child(8):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 75.8 10.5 0 10.5 44.7; }
+/* Il bordo SVG si apre intorno al link hoverato (pathLength=100). Segmenti calcolati
+   da script.js in tempo reale sulle posizioni reali dei link → precisi a ogni larghezza. */
+#nav-desk a:not(#link-bozza-nav):hover ~ #nav-outline #nav-rettangolo {
+  transition: .5s !important;                    /* come snippet: animazione breve verso il segmento */
+  stroke-dashoffset: var(--seg-offset, 0);
+  stroke-dasharray: 0 var(--seg-a, 0) var(--seg-b, 10) var(--seg-c, 70) var(--seg-b, 10);
+}
 
 /* CTA "Bozza Gratuita" nella nav: stile Uiverse gharsh11032000, colori Webnix.
    ::before (nascosto sotto) = gradiente brand; ::after (visibile) = testo che scorre via. */
@@ -171,7 +169,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   flex-shrink: 0;
 }
 #link-bozza-nav::before {
-  content: "Bozza Gratuita";
+  content: "Bozza gratis in 48h \2192";          /* pannello che sale allo hover (gradiente brand) */
   position: absolute; inset: 0; z-index: 99;
   display: flex; align-items: center; justify-content: center;
   color: #ffffff; pointer-events: none;
@@ -180,7 +178,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   transition: all .6s cubic-bezier(.23, 1, .32, 1);
 }
 #link-bozza-nav::after {
-  content: "Bozza gratis in 48h \2192";
+  content: "Richiedi la bozza gratuita";         /* pannello visibile che scorre via allo hover */
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   color: #e8e8e8; background-color: #1e1e1e;     /* card scura del brand */
@@ -270,7 +268,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   content: attr(data-sopra);
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%; pointer-events: none;
-  background-color: #1e1e1e;                     /* fondo scuro del brand (leggibile sull'hero) */
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand (snippet Uiverse) */
   color: #ffffff;
   transform: translate(0%, 90%);
   z-index: 99; position: relative; transform-origin: bottom;
@@ -279,7 +277,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #bottone1::after, #bottone1-footer::after {
   content: attr(data-sotto);
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand all'hover */
+  background-color: #1e1e1e;                     /* fondo scuro del brand (card) */
   color: #ffffff;
   width: 100%; height: 100%; pointer-events: none;
   transform-origin: top;

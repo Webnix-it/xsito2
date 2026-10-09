@@ -421,6 +421,48 @@
     });
   }
 
+  /* ---------- NAV UIVERSE: segmento SVG calcolato sulle posizioni reali ----------
+     Il bordo animato (#nav-rettangolo, pathLength=100) si apre esattamente intorno
+     al link hoverato: le misure vengono ricalcolate in tempo reale (resize/font load). */
+  function inizializzaNavSegmenti() {
+    var nav = document.getElementById("nav-desk");
+    if (!nav) return;
+    var rect = document.getElementById("nav-rettangolo");
+    if (!rect) return;
+
+    function aggiorna() {
+      var w = nav.getBoundingClientRect().width;
+      if (!w) return;
+      // viewBox fissa 400x60 → rapporto tra unità viewBox e pixel reali
+      var scala = 60 / w;
+      var links = Array.prototype.filter.call(nav.querySelectorAll("a"), function (a) {
+        return a.id !== "link-bozza-nav";
+      });
+      links.forEach(function (a) {
+        var r = a.getBoundingClientRect();
+        var x = r.left - nav.getBoundingClientRect().left;
+        var centroX = (x + r.width / 2) * scala;   // in unità viewBox (largh. 400)
+        var metaLato = Math.max(8, r.height * scala / 2 + 3); // mezza altezza segmento
+        var mezzoPerc = (metaLato / 400) * 100;    // conversione in % di pathLength=100
+        // Perimetro del rect SVG (viewBox 400x60): lo start è l'angolo in alto a sx,
+        // il punto sul lato sinistro alla quota y dista (60 - y) unità prima dello start.
+        var d = ((400 + centroX) / 920) * 100;      // posizione del punto sul perimetro (%)
+        var a0 = Math.max(0, d - mezzoPerc);         // spazio prima del segmento
+        var b0 = Math.min(100 - a0, 2 * mezzoPerc);  // lunghezza segmento visibile
+        var c0 = Math.max(0, 100 - a0 - b0);         // spazio dopo
+        a.style.setProperty("--seg-a", a0.toFixed(2));
+        a.style.setProperty("--seg-b", b0.toFixed(2));
+        a.style.setProperty("--seg-c", c0.toFixed(2));
+        a.style.setProperty("--seg-offset", (centroX - 60).toFixed(2)); // allinea lo start al vertice giusto
+      });
+    }
+
+    window.addEventListener("resize", aggiorna);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(aggiorna);
+    setTimeout(aggiorna, 300); // dopo il completamento del layout iniziale
+    aggiorna();
+  }
+
   /* ---------- LINK DINAMICI DA CONFIG (social, mail, wa) ---------- */
   function applicaConfigLink() {
     if (!CFG) return;
@@ -465,6 +507,7 @@
     caricaRecensioni();
     inizializzaForm();
     inizializzaBottoneTouch();
+    inizializzaNavSegmenti();
     applicaConfigLink();
     inizializzaReveal();
   });
