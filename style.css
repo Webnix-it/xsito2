@@ -115,38 +115,44 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #logo-link { display: flex; align-items: center; }
 #logo-header { height: 44px; width: auto; }
 /* ---------- NAV DA ZERO: links puliti + indicatore pillola animato + CTA Bozza Gratuita ---------- */
+/* ---------- NAV BAR DA ZERO: pillola morbida scura, underline brand + zoom 1.2 ---------- */
 #nav-desk {
   position: relative;
   display: flex; flex-direction: row; align-items: center;
   gap: clamp(2px, .5vw, 8px);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(13, 17, 23, .45);            /* pillola scura soft sopra l'hero */
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
 }
 #nav-desk > a {
-  position: relative; z-index: 1;              /* sopra l'indicatore */
+  position: relative; z-index: 1;
   color: #fff; font-weight: 600; font-size: .95rem;
   padding: .55em 1.05em; border-radius: 999px;
   text-decoration: none; white-space: nowrap; display: inline-block;
   transition: transform .6s cubic-bezier(.22,1,.36,1) .6s;  /* rientro morbido (ciclo ~1,2s) */
 }
-#nav-desk > a:not(#link-bozza-nav):hover {
-  transform: scale(1.2);                        /* ZOOM 1.2, lento e visibile */
+/* Underline gradiente brand che cresce da centro + ZOOM 1.2 lento e visibile */
+#nav-desk > a:not(#link-bozza-nav)::after {
+  content: ""; position: absolute; left: 18%; right: 18%; bottom: 6px; height: 2px;
+  border-radius: 2px;
+  background: var(--gradiente-brand);
+  transform: scaleX(0); transform-origin: center; opacity: 0;
+  transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1.2s ease;
+}
+#nav-desk > a:not(#link-bozza-nav):hover,
+#nav-desk > a:not(#link-bozza-nav):focus-visible {
+  transform: scale(1.2);                        /* ZOOM 1.2 */
   transition: transform .6s cubic-bezier(.22,1,.36,1) 0s;
 }
-/* Indicatore: pillola gradiente brand che scivola sotto il link hoverato (JS posiziona via --x/--l) */
-#nav-indicatore {
-  position: absolute; top: 50%; left: 0; z-index: 0;
-  width: var(--l, 0px); height: 38px;
-  transform: translate(var(--x, 0px), -50%) scaleX(var(--sx, 0));
-  opacity: var(--o, 0);
-  border-radius: 999px;
-  background: var(--gradiente-brand);           /* #e81cff -> #40c9ff */
-  box-shadow: 0 6px 22px rgba(232, 28, 255, .35);
-  transition: transform .5s cubic-bezier(.22,1,.36,1), width .5s cubic-bezier(.22,1,.36,1), opacity .3s ease;
-  pointer-events: none;
-}
-/* Link attivo (pagina corrente): pillola fissa soft, senza sfondo pieno */
+#nav-desk > a:not(#link-bozza-nav):hover::after,
+#nav-desk > a:not(#link-bozza-nav):focus-visible::after { transform: scaleX(1); opacity: 1; }
+/* Link attivo (pagina corrente): testo sul gradiente brand, niente sfondo pieno */
 #nav-desk > a[attivo="si"]:not(#link-bozza-nav) {
-  background: rgba(232, 28, 255, .18);
-  box-shadow: inset 0 0 0 1px rgba(232, 28, 255, .35);
+  background: linear-gradient(90deg, var(--viola), var(--ciano));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
 }
 
 /* CTA "Bozza Gratuita": sempre sul gradiente brand, testo che scorre in 1,2s */
@@ -218,12 +224,16 @@ button, input, textarea, select { font: inherit; color: inherit; }
   min-height: calc(100vh - var(--header-h));
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 60px clamp(18px, 5vw, 40px);
-  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand pieno */
+  /* Nero scuro soft con bagliori brand molto discreti (non "acceso") */
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(232, 28, 255, .10), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(64, 201, 255, .10), transparent 60%),
+    linear-gradient(160deg, #0a0a10 0%, #0d1117 55%, #0b0d13 100%);
   position: relative; overflow: hidden;
 }
-#hero::after { /* vignettatura per leggibilità */
+#hero::after { /* vignettatura leggera per profondità */
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(13,17,23,.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.45) 100%);
   pointer-events: none;
 }
 #hero > * { position: relative; z-index: 1; }
@@ -232,6 +242,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #fila-cta-hero { display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; }
 #freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; animation: rimbalzo 1.8s ease-in-out infinite; z-index: 1; }
 @keyframes rimbalzo { 0%,100% { transform: translate(-50%, 0);} 50% { transform: translate(-50%, 10px);} }
+
+/* ---------- HERO: bottoni con FADE-IN (opacità + salita soft) ---------- */
+#bottone1, #bottone2-hero {
+  opacity: 0; transform: translateY(26px);
+  animation: entrata-fade .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+#bottone1 { animation-delay: .55s; }        /* entra dopo il titolo */
+#bottone2-hero { animation-delay: .75s; }   /* secondo, a cascata */
+@keyframes entrata-fade { to { opacity: 1; transform: translateY(0); } }
 
 /* ---------- BOTTONE BOZZA GRATUITA (#bottone1) — stile Uiverse gharsh11032000 ----------
    Colori del branding Webnix: ::before = gradiente brand (-45deg #e81cff→#40c9ff),

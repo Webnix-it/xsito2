@@ -61,56 +61,7 @@
     aggiorna(); // stato iniziale corretto anche con pagina già scorrata (es. reload a metà)
   }
 
-  /* ---------- NAV DA ZERO: indicatore pillola che scivola sotto il link hoverato ---------- */
-  function inizializzaNavIndicatore() {
-    var nav = document.getElementById("nav-desk");
-    var ind = document.getElementById("nav-indicatore");
-    if (!nav || !ind) return;
-    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    function posizioneDi(link) {
-      var n = nav.getBoundingClientRect(), l = link.getBoundingClientRect();
-      return { x: l.left - n.left, w: l.width };
-    }
-    function mostra(link) {
-      if (window.innerWidth <= 900) return;          // solo desktop (sotto: drawer)
-      var p = posizioneDi(link);
-      if (reduced) {                                  // niente effetti di scala per chi li disattiva
-        ind.style.setProperty("--sx", "1");
-        ind.style.setProperty("--x", p.x + "px");
-        ind.style.setProperty("--l", p.w + "px");
-        ind.style.setProperty("--o", "1");
-        return;
-      }
-      var corrente = parseFloat(ind.dataset.x || "0"), larg = parseFloat(ind.dataset.l || "0");
-      if (larg > 0 && Math.abs(p.x - corrente) > 2) {
-        // trasla senza deformare, poi espande verso il centro del nuovo link
-        var centroCorrente = corrente + larg / 2, centroNuovo = p.x + p.w / 2;
-        var delta = centroNuovo - centroCorrente;
-        ind.style.setProperty("--sx", String(larg / p.w));
-        ind.style.setProperty("--x", (p.x - delta) + "px");
-        requestAnimationFrame(function () { requestAnimationFrame(function () {
-          ind.style.setProperty("--sx", "1");
-          ind.style.setProperty("--x", p.x + "px");
-        });});
-      } else {
-        ind.style.setProperty("--x", p.x + "px");
-        ind.style.setProperty("--l", p.w + "px");
-        ind.style.setProperty("--sx", "1");
-      }
-      ind.dataset.x = p.x; ind.dataset.l = p.w;
-      ind.style.setProperty("--o", "1");
-    }
-    function nascondi() { ind.style.setProperty("--o", "0"); }
-
-    nav.querySelectorAll(":scope > a:not(#link-bozza-nav)").forEach(function (a) {
-      a.addEventListener("mouseenter", function () { mostra(a); });
-      a.addEventListener("focus", function () { mostra(a); });
-      a.addEventListener("blur", nascondi);
-    });
-    nav.addEventListener("mouseleave", nascondi);
-    window.addEventListener("resize", nascondi, { passive: true });
-  }
+  /* ---------- NAV BAR DA ZERO: link puliti, underline brand + zoom 1.2 (solo CSS) ---------- */
 
   /* ---------- MENU MOBILE (drawer <=900px) ---------- */
   function inizializzaMenu() {
@@ -508,7 +459,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     avviaLoader();
     inizializzaHeaderScroll();
-    inizializzaNavIndicatore();
     inizializzaMenu();
     inizializzaScrollFluido();
     renderServizi();
