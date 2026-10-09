@@ -542,6 +542,74 @@
     if (infoOr) infoOr.textContent = CFG.contact.hours;
   }
 
+  /* ---------- PACCHETTI (servizi.html): slider, scopri, acquista ---------- */
+  var NOMI_SERVIZI = {
+    "sito-web": "Sito Web - Base",
+    "creazione-logo": "Creazione Logo",
+    "creazione-locandina": "Creazione Grafica / Locandine",
+    "brand-identity": "Brand Identity",
+    "rebranding-social": "Rebranding Social",
+    "post-copywriting": "Post + Copywriting",
+    "restyling-sito-web": "Restyling Sito Web",
+    "calendario-prenotazione": "Calendario Prenotazione"
+  };
+
+  function inizializzaPacchetti() {
+    /* Slider immagini: una slide alla volta, con fade */
+    document.querySelectorAll("#contenitore-slider").forEach(function (box) {
+      var slide = box.querySelectorAll("[slide]");
+      if (!slide.length) return;
+      var i = 0;
+      function mostra(n) {
+        i = (n + slide.length) % slide.length;
+        for (var k = 0; k < slide.length; k++) {
+          slide[k].setAttribute("slide", k === i ? "attivo" : "");
+        }
+      }
+      var slider = box.closest ? box.closest("#slider-immagini") : null;
+      if (slider) {
+        var sx = slider.querySelector("#freccia-sinistra");
+        var dx = slider.querySelector("#freccia-destra");
+        if (sx) sx.addEventListener("click", function () { mostra(i - 1); });
+        if (dx) dx.addEventListener("click", function () { mostra(i + 1); });
+      }
+      mostra(0);
+      /* Swipe su smartphone */
+      var x0 = null;
+      box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      box.addEventListener("touchend", function (e) {
+        if (x0 === null) return;
+        var dxp = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dxp) > 40) mostra(dxp < 0 ? i + 1 : i - 1);
+        x0 = null;
+      }, { passive: true });
+    });
+
+    /* "Scopri cosa offriamo": apri/chiudi il dettaglio */
+    document.querySelectorAll("#prodotto-card").forEach(function (card) {
+      var btn = card.querySelector("#bottone-scopri");
+      var det = card.querySelector("#sezione-cosa-offriamo");
+      if (!btn || !det) return;
+      btn.addEventListener("click", function () {
+        var aperto = det.getAttribute("aperto") === "si";
+        det.setAttribute("aperto", aperto ? "" : "si");
+        btn.textContent = aperto
+          ? (btn.getAttribute("data-testo-chiuso") || "✅ Scopri cosa offriamo")
+          : "⬆️ Chiudi il dettaglio";
+        if (!btn.getAttribute("data-testo-chiuso")) btn.setAttribute("data-testo-chiuso", btn.textContent.replace("⬆️ Chiudi il dettaglio", "✅ Scopri cosa offriamo"));
+      });
+    });
+
+    /* "Acquista questo pacchetto" → WhatsApp precompilato */
+    document.querySelectorAll("#bottone-acquista").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var chiave = btn.getAttribute("data-servizio") || "";
+        var nome = NOMI_SERVIZI[chiave] || chiave;
+        window.open(waLink("Ciao Webnix! Voglio ACQUISTARE il pacchetto \"" + nome + "\". Come procediamo?"), "_blank", "noopener");
+      });
+    });
+  }
+
   /* ---------- AVVIO ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     avviaLoader();
@@ -555,6 +623,7 @@
     inizializzaForm();
     inizializzaBottoneTouch();
     applicaConfigLink();
+    inizializzaPacchetti();
     inizializzaReveal();
   });
 })();
