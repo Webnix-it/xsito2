@@ -114,83 +114,54 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #corpo-pagina { padding-top: var(--header-h); }
 #logo-link { display: flex; align-items: center; }
 #logo-header { height: 44px; width: auto; }
-/* ---------- NAV STILE UIVERSE (gohar_7145) — colori del branding Webnix ----------
-   Pillola vetro con bordo SVG animato che si apre intorno al link hoverato. */
+/* ---------- NAV: link semplici + pillola CTA "Bozza Gratuita" ---------- */
 #nav-desk {
   position: relative;
   display: flex; flex-direction: row; justify-content: space-around; align-items: center;
   gap: clamp(2px, .6vw, 10px);
   padding: .5em .9em;
   border-radius: 40px;
-  background: rgba(16, 16, 16, .4);            /* come snippet: semitrasparente scuro */
-}
-#nav-outline { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
-#nav-rettangolo {
-  stroke-dashoffset: 5;
-  stroke-dasharray: 0 0 10 40 10 40;
-  transition: .5s;
-  stroke: var(--viola);                         /* brand #e81cff al posto del giallo */
-}
-#nav-desk:hover #nav-rettangolo {
-  transition: 999999s;                          /* trucco dello snippet: il segmento pieno resta fermo */
-  stroke-dashoffset: 1;
-  stroke-dasharray: 0;
 }
 #nav-desk a {
   color: #fff; font-weight: 600; font-size: .95rem;
   padding: .5em 1.1em; border-radius: 10px;
   cursor: pointer; position: relative;
-  transition: background .15s ease, transform .3s cubic-bezier(.22,1,.36,1);
+  transition: background .15s ease,
+    transform .6s cubic-bezier(.22,1,.36,1) .6s;   /* rientro morbido */
   white-space: nowrap; display: inline-block; text-decoration: none;
 }
-#nav-desk a:not(#link-bozza-nav):hover { background: var(--viola); transform: scale(1.2); z-index: 1; } /* zoom 1.2 + fondo brand */
+#nav-desk a:not(#link-bozza-nav):hover { background: var(--viola); transform: scale(1.2); z-index: 1;
+  transition: background .15s ease, transform .6s cubic-bezier(.22,1,.36,1) 0s; } /* ZOOM 1.2 in 0,6s (ciclo totale ~1,2s) */
 #nav-desk a[attivo="si"] { background: rgba(232, 28, 255, .28); }
-/* Il bordo SVG si apre intorno al link hoverato (pathLength=100). Segmenti calcolati
-   da script.js in tempo reale sulle posizioni reali dei link → precisi a ogni larghezza. */
-#nav-desk a:not(#link-bozza-nav):hover ~ #nav-outline #nav-rettangolo {
-  transition: .5s !important;                    /* come snippet: animazione breve verso il segmento */
-  stroke-dashoffset: var(--seg-offset, 0);
-  stroke-dasharray: 0 var(--seg-a, 0) var(--seg-b, 10) var(--seg-c, 70) var(--seg-b, 10);
-}
 
-/* CTA "Bozza Gratuita" nella nav: stile Uiverse gharsh11032000, colori Webnix.
-   ::before (nascosto sotto) = gradiente brand; ::after (visibile) = testo che scorre via. */
 #link-bozza-nav {
   position: relative;
   display: inline-flex; align-items: center; justify-content: center;
   width: 190px; height: 46px;
   border-radius: 10px;
   font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
-  color: transparent;                            /* il testo vero vive nei pannelli ::before/::after */
-  background: transparent;
+  color: #e8e8e8;
+  background-color: transparent;
   box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
-  overflow: hidden;
+  overflow: hidden;                 /* i due span scorrono dentro la pillola */
   transition: all .3s cubic-bezier(.23, 1, .32, 1);
   flex-shrink: 0;
 }
-#link-bozza-nav::before {
-  content: "Bozza gratis in 48h \2192";          /* pannello che sale allo hover (gradiente brand) */
-  position: absolute; inset: 0; z-index: 99;
-  display: flex; align-items: center; justify-content: center;
-  color: #ffffff; pointer-events: none;
-  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand */
-  transform: translate(0%, 90%); transform-origin: bottom;
-  transition: all .6s cubic-bezier(.23, 1, .32, 1);
-}
-#link-bozza-nav::after {
-  content: "Richiedi la bozza gratuita";         /* pannello visibile che scorre via allo hover */
+#bozza-norme, #bozza-hover {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  color: #e8e8e8; background-color: #1e1e1e;     /* card scura del brand */
-  pointer-events: none;
-  transform: translate(0%, -100%); transform-origin: top;
-  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+  padding: 0 8px; text-align: center;
+  transition: transform 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
-#link-bozza-nav:hover::before, #link-bozza-nav:focus-visible::before, #link-bozza-nav[attivo="si"]::before { transform: translate(0%, 0%); }
-#link-bozza-nav:hover::after,  #link-bozza-nav:focus-visible::after,  #link-bozza-nav[attivo="si"]::after  { transform: translate(0%, -200%); }
+#bozza-norme { transform-origin: top;    transform: translate(0%, -100%); }  /* visibile da subito */
+#bozza-hover { transform-origin: bottom; transform: translate(0%, 90%);
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);             /* gradiente brand */
+  color: #ffffff; }
+#link-bozza-nav:hover #bozza-norme, #link-bozza-nav:focus-visible #bozza-norme, #link-bozza-nav[attivo="si"] #bozza-norme { transform: translate(0%, -200%); } /* scorre via in alto */
+#link-bozza-nav:hover #bozza-hover,  #link-bozza-nav:focus-visible #bozza-hover,  #link-bozza-nav[attivo="si"] #bozza-hover  { transform: translate(0%, 0%); }  /* sale dal basso */
 #link-bozza-nav:focus { outline: none; }
 #link-bozza-nav:active { scale: .95; }
-#link-bozza-nav:hover { background: transparent; transform: none; } /* niente zoom: vale lo scroll dei pannelli */
+#link-bozza-nav:hover { background-color: transparent; transform: none; } /* niente zoom: vale lo scroll dei pannelli */
 
 /* Hamburger */
 #hamburger {
@@ -272,7 +243,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: #ffffff;
   transform: translate(0%, 90%);
   z-index: 99; position: relative; transform-origin: bottom;
-  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+  transition: all 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
 #bottone1::after, #bottone1-footer::after {
   content: attr(data-sotto);
@@ -282,7 +253,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   width: 100%; height: 100%; pointer-events: none;
   transform-origin: top;
   transform: translate(0%, -100%);
-  transition: all .6s cubic-bezier(.23, 1, .32, 1);
+  transition: all 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
 #bottone1:hover::before, #bottone1:focus-visible::before, #bottone1[attivo="si"]::before,
 #bottone1-footer:hover::before, #bottone1-footer[attivo="si"]::before { transform: translate(0%, 0%); }
