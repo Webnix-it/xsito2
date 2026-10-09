@@ -114,54 +114,68 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #corpo-pagina { padding-top: var(--header-h); }
 #logo-link { display: flex; align-items: center; }
 #logo-header { height: 44px; width: auto; }
-/* ---------- NAV: link semplici + pillola CTA "Bozza Gratuita" ---------- */
+/* ---------- NAV DA ZERO: links puliti + indicatore pillola animato + CTA Bozza Gratuita ---------- */
 #nav-desk {
   position: relative;
-  display: flex; flex-direction: row; justify-content: space-around; align-items: center;
-  gap: clamp(2px, .6vw, 10px);
-  padding: .5em .9em;
-  border-radius: 40px;
+  display: flex; flex-direction: row; align-items: center;
+  gap: clamp(2px, .5vw, 8px);
 }
-#nav-desk a {
+#nav-desk > a {
+  position: relative; z-index: 1;              /* sopra l'indicatore */
   color: #fff; font-weight: 600; font-size: .95rem;
-  padding: .5em 1.1em; border-radius: 10px;
-  cursor: pointer; position: relative;
-  transition: background .15s ease,
-    transform .6s cubic-bezier(.22,1,.36,1) .6s;   /* rientro morbido */
-  white-space: nowrap; display: inline-block; text-decoration: none;
+  padding: .55em 1.05em; border-radius: 999px;
+  text-decoration: none; white-space: nowrap; display: inline-block;
+  transition: transform .6s cubic-bezier(.22,1,.36,1) .6s;  /* rientro morbido (ciclo ~1,2s) */
 }
-#nav-desk a:not(#link-bozza-nav):hover { background: var(--viola); transform: scale(1.2); z-index: 1;
-  transition: background .15s ease, transform .6s cubic-bezier(.22,1,.36,1) 0s; } /* ZOOM 1.2 in 0,6s (ciclo totale ~1,2s) */
-#nav-desk a[attivo="si"] { background: rgba(232, 28, 255, .28); }
+#nav-desk > a:not(#link-bozza-nav):hover {
+  transform: scale(1.2);                        /* ZOOM 1.2, lento e visibile */
+  transition: transform .6s cubic-bezier(.22,1,.36,1) 0s;
+}
+/* Indicatore: pillola gradiente brand che scivola sotto il link hoverato (JS posiziona via --x/--l) */
+#nav-indicatore {
+  position: absolute; top: 50%; left: 0; z-index: 0;
+  width: var(--l, 0px); height: 38px;
+  transform: translate(var(--x, 0px), -50%) scaleX(var(--sx, 0));
+  opacity: var(--o, 0);
+  border-radius: 999px;
+  background: var(--gradiente-brand);           /* #e81cff -> #40c9ff */
+  box-shadow: 0 6px 22px rgba(232, 28, 255, .35);
+  transition: transform .5s cubic-bezier(.22,1,.36,1), width .5s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  pointer-events: none;
+}
+/* Link attivo (pagina corrente): pillola fissa soft, senza sfondo pieno */
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav) {
+  background: rgba(232, 28, 255, .18);
+  box-shadow: inset 0 0 0 1px rgba(232, 28, 255, .35);
+}
 
+/* CTA "Bozza Gratuita": sempre sul gradiente brand, testo che scorre in 1,2s */
 #link-bozza-nav {
-  position: relative;
+  position: relative; z-index: 1;
   display: inline-flex; align-items: center; justify-content: center;
-  width: clamp(170px, 15vw, 230px); height: 46px;
-  border-radius: 10px;
-  font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
-  color: #e8e8e8;
-  background-color: transparent;
-  box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
-  overflow: hidden;                 /* i due span scorrono dentro la pillola */
-  transition: all .3s cubic-bezier(.23, 1, .32, 1);
+  width: clamp(150px, 13vw, 190px); height: 44px; margin-left: clamp(6px, 1vw, 14px);
+  border-radius: 999px;
+  font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .6px;
+  color: #ffffff;
+  background: var(--gradiente-brand);
+  box-shadow: 0 10px 24px rgba(64, 201, 255, .28);
+  overflow: hidden;                             /* i due span scorrono dentro la pillola */
   flex-shrink: 0;
+  transition: box-shadow .4s ease;
 }
+#link-bozza-nav:hover { box-shadow: 0 12px 34px rgba(232, 28, 255, .5); }
 #bozza-norme, #bozza-hover {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  padding: 0 8px; text-align: center;
+  padding: 0 10px; text-align: center;
   transition: transform 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
-#bozza-norme { transform-origin: top;    transform: translate(0%, -100%); }  /* visibile da subito */
-#bozza-hover { transform-origin: bottom; transform: translate(0%, 90%);
-  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);             /* gradiente brand */
-  color: #ffffff; }
-#link-bozza-nav:hover #bozza-norme, #link-bozza-nav:focus-visible #bozza-norme, #link-bozza-nav[attivo="si"] #bozza-norme { transform: translate(0%, -200%); } /* scorre via in alto */
-#link-bozza-nav:hover #bozza-hover,  #link-bozza-nav:focus-visible #bozza-hover,  #link-bozza-nav[attivo="si"] #bozza-hover  { transform: translate(0%, 0%); }  /* sale dal basso */
+#bozza-norme { transform-origin: top;    transform: translate(0%, 0%); }
+#bozza-hover { transform-origin: bottom; transform: translate(0%, 100%); }
+#link-bozza-nav:hover #bozza-norme, #link-bozza-nav:focus-visible #bozza-norme, #link-bozza-nav[attivo="si"] #bozza-norme { transform: translate(0%, -100%); } /* scorre via in alto */
+#link-bozza-nav:hover #bozza-hover,  #link-bozza-nav:focus-visible #bozza-hover,  #link-bozza-nav[attivo="si"] #bozza-hover  { transform: translate(0%, 0%); }   /* sale dal basso */
 #link-bozza-nav:focus { outline: none; }
 #link-bozza-nav:active { scale: .95; }
-#link-bozza-nav:hover { background-color: transparent; transform: none; } /* niente zoom: vale lo scroll dei pannelli */
 
 /* Hamburger */
 #hamburger {
