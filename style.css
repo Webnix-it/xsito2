@@ -255,11 +255,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #freccia-scroll i { display: inline-block; animation: altalena-freccia 3s ease-in-out infinite; }
 @keyframes altalena-freccia { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(9px); } }
 
-/* ---------- HERO: bottoni con FADE-IN (dissolvenza pura, senza transform:
-   il transform è riservato allo zoom hover globale richiesto sotto) ---------- */
+/* ---------- HERO: bottoni con FADE-IN. Il fade-in e' solo OPACITA', cosi'
+   il transform di #bottone1 resta libero per la rotazione del bordo
+   gradiente (::before) e per lo zoom hover globale richiesti ---------- */
 #bottone1, #bottone2-hero {
   opacity: 0;
-  animation: entrata-fade .9s cubic-bezier(.22,1,.36,1) forwards;
+  animation-name: entrata-fade;
+  animation-duration: .9s;
+  animation-timing-function: cubic-bezier(.22,1,.36,1);
+  animation-fill-mode: forwards;
 }
 #bottone1 { animation-delay: .55s; }        /* entra dopo il titolo */
 #bottone2-hero { animation-delay: .75s; }   /* secondo, a cascata */
@@ -325,10 +329,63 @@ details.domanda summary:hover {
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s !important; /* zoom sempre visibile, mai ritardato */
 }
 
-/* ---------- BOTTONE BOZZA GRATUITA (#bottone1) — stile Uiverse gharsh11032000 ----------
+/* ============================================================
+   BOTTONE PRINCIPALE "Richiedi la tua bozza" (#bottone1) — STILE RICHIESTO:
+   sfondo nero, bordo gradiente brand animato (ruota -180° all'hover),
+   ombra glow sfocata che si amplifica, zoom 1.2 con curva elastica
+   cubic-bezier(0.175, 0.885, 0.32, 1.275) in 0.6s.
+   #bottone1-footer mantiene lo stile Uiverse a doppio pannello sotto.
+   ============================================================ */
+#bottone1 {
+  font-weight: bold;
+  position: relative;
+  isolation: isolate; /* contestualizza gli z-index negativi di ::before/::after:
+     il bordo gradiente e il glow restano dietro al nero del bottone senza
+     finire dietro lo sfondo della sezione */
+  width: min(40%, 320px);
+  margin-top: 20px;
+  height: 60px;
+  font-size: larger;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#bottone1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: -5px;
+  margin: auto;
+  width: 104%;
+  height: 68px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#bottone1::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+  pointer-events: none;
+}
+#bottone1:hover::after { filter: blur(30px); }
+#bottone1:hover::before { transform: rotate(-180deg); }
+#bottone1:active::before { scale: 0.7; }
+#bottone1:focus { outline: none; }
+
+/* ---------- BOTTONE BOZZA GRATUITA FOOTER (#bottone1-footer) — stile Uiverse gharsh11032000 ----------
    Colori del branding Webnix: ::before = gradiente brand (-45deg #e81cff→#40c9ff),
    ::after = fondo scuro #1e1e1e. Doppio pannello che scorre in verticale all'hover. */
-#bottone1, #bottone1-footer {
+#bottone1-footer {
   position: relative;
   background-color: transparent;
   color: #e8e8e8;
@@ -339,10 +396,9 @@ details.domanda summary:hover {
   border: none; text-transform: uppercase; cursor: pointer;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
-  /* TRANSIZIONE GLOBALE RICHIESTA (la regola sotto la riapplica comunque) */
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-#bottone1::before, #bottone1-footer::before {
+#bottone1-footer::before {
   content: attr(data-sopra);
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%; pointer-events: none;
@@ -352,7 +408,7 @@ details.domanda summary:hover {
   z-index: 99; position: relative; transform-origin: bottom;
   transition: all 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
-#bottone1::after, #bottone1-footer::after {
+#bottone1-footer::after {
   content: attr(data-sotto);
   display: flex; align-items: center; justify-content: center;
   background-color: #1e1e1e;                     /* fondo scuro del brand (card) */
@@ -362,21 +418,21 @@ details.domanda summary:hover {
   transform: translate(0%, -100%);
   transition: all 1.2s cubic-bezier(.23, 1, .32, 1);   /* DURATA 1,2s */
 }
-#bottone1:hover::before, #bottone1:focus-visible::before, #bottone1[attivo="si"]::before,
 #bottone1-footer:hover::before, #bottone1-footer[attivo="si"]::before { transform: translate(0%, 0%); }
-#bottone1:hover::after, #bottone1:focus-visible::after, #bottone1[attivo="si"]::after,
 #bottone1-footer:hover::after, #bottone1-footer[attivo="si"]::after { transform: translate(0%, -200%); }
-/* Zoom 1.2 combinato con la salita del doppio pannello (REGOLA GLOBALE hover) */
-#bottone1:focus, #bottone1-footer:focus { outline: none; }
-#bottone1:active, #bottone1-footer:active { scale: .95; }
-/* TRANSIZIONE + ZOOM GLOBALE RICHIESTA (doppia occorrenza = priorità massima,
-   vince sempre su qualunque regola precedente) */
-#bottone1, #bottone1-footer { transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-#bottone1:hover, #bottone1:focus-visible, #bottone1-footer:hover {
+#bottone1-footer:focus { outline: none; }
+#bottone1-footer:active { scale: .95; }
+
+/* ZOOM GLOBALE RICHIESTO SUI DUE BOTTONI BOZZA (curva elastica 0.6s):
+   per #bottone1 il transform e' libero (nessun conflitto col fade-in hero,
+   che anima solo l'opacita'); per #bottone1-footer lo slide dei pannelli
+   vive su ::before/::after, quindi lo zoom sul contenitore non disturba */
+#bottone1:hover, #bottone1:focus-visible,
+#bottone1-footer:hover, #bottone1-footer:focus-visible {
   transform: scale(1.2);
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s !important;
 }
-@media (max-width: 640px) { #bottone1 { width: min(280px, 88vw); } }
+@media (max-width: 640px) { #bottone1, #bottone1-footer { width: min(280px, 88vw); } }
 
 /* ---------- CTA SECONDARIA (#bottone2) ---------- */
 #bottone2, #bottone2-hero {
