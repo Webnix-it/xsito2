@@ -168,10 +168,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
   box-shadow: 0 10px 24px rgba(64, 201, 255, .28);
   overflow: hidden;                             /* i due span scorrono dentro la pillola */
   flex-shrink: 0;
-  transition: box-shadow .4s ease;
+  /* TRANSIZIONE GLOBALE RICHIESTA (sovrascrive il box-shadow generico: "all" la include) */
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 #link-bozza-nav:hover { box-shadow: 0 12px 34px rgba(232, 28, 255, .5); }
-#link-bozza-nav:hover, #link-bozza-nav:focus-visible { transform: translateY(-4px) scale(1.2); }
+/* ZOOM 1.2 puro, senza translate: identico alla regola globale richiesta */
+#link-bozza-nav:hover, #link-bozza-nav:focus-visible { transform: scale(1.2); }
 #bozza-norme, #bozza-hover {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -245,7 +247,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* Freccia scroll: SU E GIÙ lenta e continua. Il movimento è sull'icona interna
    (transform del figlio), così l'hover globale scale(1.2) sul link non può mai
    sovrascrivere o "congelare" il bounce. */
-#freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; z-index: 1; }
+#freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; z-index: 1; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+/* Hover freccia: zoom 1.2 mantenendo il centraggio assoluto */
+#freccia-scroll:hover, #freccia-scroll:focus-visible { transform: translateX(-50%) scale(1.2); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #freccia-scroll > .fa-chevron-down,
 #freccia-scroll i { display: inline-block; animation: altalena-freccia 3s ease-in-out infinite; }
 @keyframes altalena-freccia { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(9px); } }
@@ -283,6 +287,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .card-container,
 #invia-recensione,
 #pulsante-invio,
+#invia-modulo,
 #ul2 a,
 #copyright-links a,
 details.domanda summary {
@@ -311,6 +316,7 @@ details.domanda summary {
 .card-container:hover,
 #invia-recensione:hover,
 #pulsante-invio:hover,
+#invia-modulo:hover,
 #ul2 a:hover,
 #copyright-links a:hover,
 details.domanda summary:hover {
@@ -332,7 +338,8 @@ details.domanda summary:hover {
   border: none; text-transform: uppercase; cursor: pointer;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
-  transition: all .3s cubic-bezier(.23, 1, .32, 1);
+  /* TRANSIZIONE GLOBALE RICHIESTA (la regola sotto la riapplica comunque) */
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 #bottone1::before, #bottone1-footer::before {
   content: attr(data-sopra);
@@ -359,10 +366,15 @@ details.domanda summary:hover {
 #bottone1:hover::after, #bottone1:focus-visible::after, #bottone1[attivo="si"]::after,
 #bottone1-footer:hover::after, #bottone1-footer[attivo="si"]::after { transform: translate(0%, -200%); }
 /* Zoom 1.2 combinato con la salita del doppio pannello (REGOLA GLOBALE hover) */
-#bottone1:hover, #bottone1:focus-visible { transform: translateY(-8px) scale(1.2); }
-#bottone1-footer:hover { transform: translateY(-8px) scale(1.2); }
 #bottone1:focus, #bottone1-footer:focus { outline: none; }
 #bottone1:active, #bottone1-footer:active { scale: .95; }
+/* TRANSIZIONE + ZOOM GLOBALE RICHIESTA (doppia occorrenza = priorità massima,
+   vince sempre su qualunque regola precedente) */
+#bottone1, #bottone1-footer { transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+#bottone1:hover, #bottone1:focus-visible, #bottone1-footer:hover {
+  transform: scale(1.2);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 @media (max-width: 640px) { #bottone1 { width: min(280px, 88vw); } }
 
 /* ---------- CTA SECONDARIA (#bottone2) ---------- */
@@ -370,7 +382,8 @@ details.domanda summary:hover {
   appearance: none; display: inline-flex; align-items: center; gap: 10px;
   padding: 16px 30px; border-radius: 999px; background: transparent;
   border: 1px solid rgba(255,255,255,.55); color: #fff; font-weight: 700; cursor: pointer;
-  transition: background .3s, border-color .3s;
+  /* TRANSIZIONE GLOBALE RICHIESTA */
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 #bottone2:hover, #bottone2-hero:hover { background: rgba(255,255,255,.12); border-color: #fff; }
 
@@ -568,17 +581,17 @@ details.domanda summary:hover {
   border-radius: .4rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; font-size: .86rem;
   background: rgb(14, 14, 26); color: #eaeaea;
   box-shadow: 0 6px 18px rgba(0, 110, 255, .25);
-  transition: background .35s, color .35s, transform .2s;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   white-space: normal; overflow-wrap: anywhere; flex-shrink: 0;
 }
-.btn_seleziona:hover { background: linear-gradient(90deg, #0a2540, #1fd7e8); color: #04121f; transform: translateY(-2px) scale(1.2); }
+.btn_seleziona:hover { background: linear-gradient(90deg, #0a2540, #1fd7e8); color: #04121f; transform: scale(1.2); }
 
 /* ---------- PORTFOLIO filtrabile ---------- */
 #fila-filtri { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
 .filtro-portfolio {
   appearance: none; background: transparent; border: 1px solid rgba(255,255,255,.22);
   color: var(--testo-2); padding: 10px 22px; border-radius: 999px; cursor: pointer; font-weight: 700;
-  transition: all .3s;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .filtro-portfolio:hover { border-color: var(--ciano); color: #fff; }
 .filtro-portfolio[selezionato="si"] { background: var(--gradiente-brand); border-color: transparent; color: #fff; box-shadow: 0 0 18px rgba(232,28,255,.4); }
@@ -646,7 +659,8 @@ details.domanda summary:hover {
 #glow-button:hover #glow-top, #glow-button:hover #glow-bottom { width: 100%; }
 #glow-button:hover #glow-left, #glow-button:hover #glow-right { height: 100%; }
 #glow-button:hover { box-shadow: 0 0 34px rgba(232,28,255,.5), 0 0 60px rgba(64,201,255,.3); }
-#glow-button:hover, #glow-button:focus-visible { transform: translateY(-6px) scale(1.2); }
+/* ZOOM 1.2 PURO (regola globale richiesta) — niente translateY */
+#glow-button:hover, #glow-button:focus-visible { transform: scale(1.2); }
 
 /* ---------- CTA FINALE ---------- */
 #cta-finale { text-align: center; padding: clamp(70px, 9vw, 110px) 20px; background: radial-gradient(700px 300px at 50% 0%, rgba(232,28,255,.16), transparent 70%), var(--sfondo-card-2); }
@@ -677,7 +691,7 @@ details.domanda summary:hover {
 #ul2 { text-align: left; padding-left: 0; list-style: none; margin: 0; }
 #ul2 li { margin-bottom: 12px; font-size: 15px; padding-left: 0; position: relative; }
 #ul2 li:last-child { margin-bottom: 0; }
-#ul2 a { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
+#ul2 a { color: #ffffff; text-decoration: none; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #ul2 a:hover { color: var(--azione); text-decoration: underline; }
 #ul3 { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; list-style: none; padding: 0; margin: 0; }
 #cards { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; flex-direction: column; align-content: center; justify-content: center; }
@@ -691,7 +705,7 @@ details.domanda summary:hover {
   padding: 0.5em 10px;
   border-radius: 0.5em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background: #161b22;
 }
 #Whatsapp { background-color: #25d366; }
@@ -717,7 +731,7 @@ details.domanda summary:hover {
 #copyright-main p { margin: 0; width: 100%; text-align: center; }
 #copyright-main strong { color: #fff; }
 #copyright-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; padding: 5px 0; margin-top: 30px; margin-bottom: 20px; }
-#copyright-links a { color: #ffffff; text-decoration: none; margin: 0 5px; font-size: 13px; transition: color 0.3s ease; white-space: nowrap; }
+#copyright-links a { color: #ffffff; text-decoration: none; margin: 0 5px; font-size: 13px; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); white-space: nowrap; }
 #copyright-links a:hover { color: var(--azione); text-decoration: underline; }
 
 /* ---------- PAGINE INTERNE (titolo pagina) ---------- */
@@ -766,7 +780,7 @@ details.domanda[open] summary { color: var(--ciano); }
   #loader-progresso2 { width: 100% !important; transition: none !important; }
 }
 
-/* Override finale: trasform COMBINATI dove serve conservare un translate proprio
-   (la freccia scroll mantiene il suo posizionamento; i link nav mantengono la salita soft) */
+/* Override finale: la freccia scroll mantiene il centraggio assoluto
+   (translateX(-50%)) combinato con lo zoom 1.2 richiesto */
 #freccia-scroll:hover,
-#freccia-scroll:focus-visible { transform: translateX(-50%) scale(1.2); }
+#freccia-scroll:focus-visible { transform: translateX(-50%) scale(1.2); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
