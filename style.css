@@ -114,17 +114,50 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #corpo-pagina { padding-top: var(--header-h); }
 #logo-link { display: flex; align-items: center; }
 #logo-header { height: 44px; width: auto; }
-#nav-desk { display: flex; align-items: center; gap: clamp(10px, 1.6vw, 26px); }
-#nav-desk a { color: var(--testo-2); font-weight: 600; font-size: .95rem; padding: 8px 4px; position: relative; transition: color .25s, transform .3s cubic-bezier(.22,1,.36,1); white-space: nowrap; display: inline-block; }
-#nav-desk a:hover { color: #fff; transform: scale(1.2); z-index: 1; } /* zoom 1.2 al passaggio */
-#nav-desk a[attivo="si"] { color: #fff; }
-#nav-desk a::after { content: ""; position: absolute; left: 0; bottom: 2px; width: 0; height: 2px; background: var(--gradiente-brand); transition: width .3s; border-radius: 2px; }
-#nav-desk a:hover::after, #nav-desk a[attivo="si"]::after { width: 100%; }
+/* ---------- NAV STILE UIVERSE (gohar_7145) — colori del branding Webnix ----------
+   Pillola vetro con bordo SVG animato che si apre intorno al link hoverato. */
+#nav-desk {
+  position: relative;
+  display: flex; flex-direction: row; justify-content: space-around; align-items: center;
+  gap: clamp(2px, .6vw, 10px);
+  padding: .5em .9em;
+  border-radius: 40px;
+  background: rgba(16, 16, 16, .4);            /* come snippet: semitrasparente scuro */
+}
+#nav-outline { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+#nav-rettangolo {
+  stroke-dashoffset: 5;
+  stroke-dasharray: 0 0 10 40 10 40;
+  transition: .5s;
+  stroke: var(--viola);                         /* brand #e81cff al posto del giallo */
+}
+#nav-desk:hover #nav-rettangolo {
+  transition: 999999s;                          /* trucco dello snippet: il segmento pieno resta fermo */
+  stroke-dashoffset: 1;
+  stroke-dasharray: 0;
+}
+#nav-desk a {
+  color: #fff; font-weight: 600; font-size: .95rem;
+  padding: .5em 1.1em; border-radius: 10px;
+  cursor: pointer; position: relative;
+  transition: background .15s ease, transform .3s cubic-bezier(.22,1,.36,1);
+  white-space: nowrap; display: inline-block; text-decoration: none;
+}
+#nav-desk a:hover { background: var(--viola); transform: scale(1.2); z-index: 1; } /* zoom 1.2 + fondo brand */
+#nav-desk a[attivo="si"] { background: rgba(232, 28, 255, .28); }
+/* Il bordo SVG scatta verso il segmento corrispondente al link hoverato (pathLength=100) */
+#nav-desk a:nth-child(1):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 1.6 7.9 74.7 7.9 10; }
+#nav-desk a:nth-child(2):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 11.8 8.6 50.8 8.6 31.6; }
+#nav-desk a:nth-child(3):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 22.3 7.2 31.9 7.2 53.9; }
+#nav-desk a:nth-child(4):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 31.9 8.6 16.1 8.6 59.3; }
+#nav-desk a:nth-child(5):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 43 9.4 0 9.4 47.7; }
+#nav-desk a:nth-child(6):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 53.9 8.6 0 8.6 38.4; }
+#nav-desk a:nth-child(7):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 62.5 7.2 0 7.2 32.6; }
+#nav-desk a:nth-child(8):hover ~ #nav-outline #nav-rettangolo { stroke-dashoffset: 0; stroke-dasharray: 0 71.1 7.9 0 7.9 22.6; }
 
-/* CTA nav desktop = mini #bottone1 già sotto; qui versione link diretto al form */
-#link-bozza-nav { color: #fff !important; background: var(--gradiente-brand); padding: 9px 18px !important; border-radius: 999px; box-shadow: 0 0 16px rgba(232,28,255,.4); }
-#link-bozza-nav:hover { transform: scale(1.2); } /* zoom anche sulla CTA "Bozza Gratuita" */
-#link-bozza-nav::after { display: none; }
+/* CTA "Bozza Gratuita" nella nav: pillola gradiente brand + glow */
+#link-bozza-nav { color: #fff !important; background: var(--gradiente-brand) !important; border-radius: 999px; box-shadow: 0 0 16px rgba(232,28,255,.4); }
+#link-bozza-nav:hover { transform: scale(1.2); } /* zoom anche sulla CTA */
 
 /* Hamburger */
 #hamburger {
@@ -185,41 +218,47 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; animation: rimbalzo 1.8s ease-in-out infinite; z-index: 1; }
 @keyframes rimbalzo { 0%,100% { transform: translate(-50%, 0);} 50% { transform: translate(-50%, 10px);} }
 
-/* ---------- BOTTONE BOZZA GRATUITA (#bottone1) ----------
-   Fedele allo snippet: pillola 280x60, sfondo rgb(31,31,31),
-   3 layer animati bianco → #17f1d1 → #008dc7, testo scorrevole. */
+/* ---------- BOTTONE BOZZA GRATUITA (#bottone1) — stile Uiverse gharsh11032000 ----------
+   Colori del branding Webnix: ::before = gradiente brand (-45deg #e81cff→#40c9ff),
+   ::after = fondo scuro #1e1e1e. Doppio pannello che scorre in verticale all'hover. */
 #bottone1, #bottone1-footer {
-  appearance: none; display: inline-flex; align-items: center; justify-content: center;
-  width: 280px; height: 60px; position: relative; overflow: hidden;
-  border-radius: 999px; background: rgb(31, 31, 31);
-  border: 1px solid rgba(255,255,255,.25); cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  position: relative;
+  background-color: transparent;
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 17px; font-weight: 600;
+  border-radius: 10px;
+  width: 280px; height: 60px;
+  border: none; text-transform: uppercase; cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(51, 51, 51, .2);
+  transition: all .3s cubic-bezier(.23, 1, .32, 1);
 }
-#bottone1-footer { width: min(280px, 90vw); }
-#bottone1 .livello, #bottone1-footer .livello {
-  position: absolute; inset: 0; border-radius: 999px;
-  transform: scale(0); opacity: 0; pointer-events: none;
+#bottone1::before, #bottone1-footer::before {
+  content: attr(data-sopra);
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; pointer-events: none;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%); /* gradiente brand */
+  transform: translate(0%, 90%);
+  z-index: 99; position: relative; transform-origin: bottom;
+  transition: all .6s cubic-bezier(.23, 1, .32, 1);
 }
-#bottone1-bianco, #bottone1-footer-bianco { background: #ffffff; transition: transform .8s cubic-bezier(.19,1,.22,1) 0s, opacity .8s 0s; }
-#bottone1-turchese, #bottone1-footer-turchese { background: #17f1d1; transition: transform .8s cubic-bezier(.19,1,.22,1) .1s, opacity .8s .1s; }
-#bottone1-blu, #bottone1-footer-blu { background: #008dc7; transition: transform .8s cubic-bezier(.19,1,.22,1) .2s, opacity .8s .2s; }
-#bottone1:hover .livello, #bottone1:focus-visible .livello, #bottone1[attivo="si"] .livello,
-#bottone1-footer:hover .livello, #bottone1-footer[attivo="si"] .livello { transform: scale(1); opacity: 1; }
-#bottone1-testo, #bottone1-footer-testo {
-  position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center;
-  transition: transform .5s cubic-bezier(.19,1,.22,1);
+#bottone1::after, #bottone1-footer::after {
+  content: attr(data-sotto);
+  display: flex; align-items: center; justify-content: center;
+  background-color: #1e1e1e;                    /* card scura del brand */
+  color: #e8e8e8;
+  width: 100%; height: 100%; pointer-events: none;
+  transform-origin: top;
+  transform: translate(0%, -100%);
+  transition: all .6s cubic-bezier(.23, 1, .32, 1);
 }
-#bottone1-testo strong, #bottone1-footer-testo strong { color: #fff; font-size: 1.02rem; letter-spacing: .4px; transition: color .4s .15s; white-space: nowrap; }
-#bottone1-testo small, #bottone1-footer-testo small { color: var(--ciano); font-size: .74rem; transition: color .4s .15s; white-space: nowrap; }
-#bottone1:hover #bottone1-testo, #bottone1[attivo="si"] #bottone1-testo,
-#bottone1-footer:hover #bottone1-footer-testo, #bottone1-footer[attivo="si"] #bottone1-footer-testo { transform: translateY(-140%); }
-#bottone1-alt, #bottone1-footer-alt {
-  position: absolute; top: 160%; left: 0; right: 0; z-index: 2; text-align: center;
-  color: #06283d; font-weight: 800; font-size: 1.02rem; white-space: nowrap;
-  transition: transform .5s cubic-bezier(.19,1,.22,1);
-}
-#bottone1:hover #bottone1-alt, #bottone1[attivo="si"] #bottone1-alt,
-#bottone1-footer:hover #bottone1-footer-alt, #bottone1-footer[attivo="si"] #bottone1-footer-alt { transform: translateY(-245%); }
+#bottone1:hover::before, #bottone1:focus-visible::before, #bottone1[attivo="si"]::before,
+#bottone1-footer:hover::before, #bottone1-footer[attivo="si"]::before { transform: translate(0%, 0%); }
+#bottone1:hover::after, #bottone1:focus-visible::after, #bottone1[attivo="si"]::after,
+#bottone1-footer:hover::after, #bottone1-footer[attivo="si"]::after { transform: translate(0%, -200%); }
+#bottone1:focus, #bottone1-footer:focus { outline: none; }
+#bottone1:active, #bottone1-footer:active { scale: .95; }
 @media (max-width: 640px) { #bottone1 { width: min(280px, 88vw); } }
 
 /* ---------- CTA SECONDARIA (#bottone2) ---------- */

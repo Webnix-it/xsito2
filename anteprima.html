@@ -26,15 +26,20 @@
     <img id="logo-header" src="loghi/WEBNIX.png" alt="Webnix — Digital Agency">
   </a>
   <nav id="nav-desk" aria-label="Navigazione principale">
-    <a href="index.html" attivo="si">Home</a>
-    <a href="servizi.html">Servizi</a>
-    <a href="faq.html">FAQ</a>
-    <a href="assistenza.html">Assistenza</a>
-    <a href="chi-siamo.html">Chi Siamo</a>
-    <a href="contatti.html">Contatti</a>
-    <a href="admin.html">Admin</a>
-    <a id="link-bozza-nav" href="#contatti">Bozza Gratuita</a>
-  </nav>
+        <a href="index.html" attivo="si">Home</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="faq.html">FAQ</a>
+        <a href="assistenza.html">Assistenza</a>
+        <a href="chi-siamo.html">Chi Siamo</a>
+        <a href="contatti.html">Contatti</a>
+        <a href="admin.html">Admin</a>
+        <a id="link-bozza-nav" href="#contatti">Bozza Gratuita</a>
+      
+      
+      <svg id="nav-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" height="60" width="400" overflow="visible" aria-hidden="true">
+        <rect id="nav-rettangolo" stroke-width="5" fill="transparent" height="60" width="400" y="0" x="0" pathLength="100"></rect>
+      </svg>
+    </nav>
   <button id="hamburger" type="button" aria-label="Apri menu" aria-expanded="false">
     <i class="fa-solid fa-bars" aria-hidden="true"></i>
   </button>
@@ -46,13 +51,7 @@
   <h1 id="titolo-hero">La tua attività non è su Google? I tuoi clienti ti stanno cercando, ma stanno trovando i tuoi <em>concorrenti</em>.</h1>
   <p id="sottotitolo-hero">Aiutiamo le nuove attività a ottenere una presenza digitale professionale, senza costi nascosti e senza la complessità di WordPress. <strong>Ottieni una bozza gratuita del tuo sito in 48 ore.</strong></p>
   <div id="fila-cta-hero">
-    <button id="bottone1" type="button" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})">
-      <span id="bottone1-bianco" class="livello"></span>
-      <span id="bottone1-turchese" class="livello"></span>
-      <span id="bottone1-blu" class="livello"></span>
-      <span id="bottone1-testo"><strong>Richiedi la bozza gratuita</strong><small>Paghi solo se ti piace</small></span>
-      <span id="bottone1-alt">Bozza gratis in 48h →</span>
-    </button>
+    <button id="bottone1" type="button" data-sopra="Richiedi la bozza gratuita" data-sotto="Bozza gratis in 48h →" title="Paghi solo se ti piace" onclick="document.getElementById('contatti').scrollIntoView({behavior:'smooth'})"></button>
     <button id="bottone2-hero" type="button" onclick="document.getElementById('come-funziona').scrollIntoView({behavior:'smooth'})">
       <i class="fa-solid fa-play" aria-hidden="true"></i> Vedi come funziona
     </button>
