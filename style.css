@@ -131,7 +131,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: #fff; font-weight: 600; font-size: .95rem;
   padding: .55em 1.05em; border-radius: 999px;
   text-decoration: none; white-space: nowrap; display: inline-block;
-  transition: transform .6s cubic-bezier(.22,1,.36,1) .6s;  /* rientro morbido (ciclo ~1,2s) */
+  /* transizione + zoom hover gestiti dalla REGOLA GLOBALE richiesta (all .6s back, scale 1.2) */
 }
 /* Underline gradiente brand che cresce da centro + ZOOM 1.2 lento e visibile */
 #nav-desk > a:not(#link-bozza-nav)::after {
@@ -140,11 +140,6 @@ button, input, textarea, select { font: inherit; color: inherit; }
   background: var(--gradiente-brand);
   transform: scaleX(0); transform-origin: center; opacity: 0;
   transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1.2s ease;
-}
-#nav-desk > a:not(#link-bozza-nav):hover,
-#nav-desk > a:not(#link-bozza-nav):focus-visible {
-  transform: scale(1.2);                        /* ZOOM 1.2 */
-  transition: transform .6s cubic-bezier(.22,1,.36,1) 0s;
 }
 #nav-desk > a:not(#link-bozza-nav):hover::after,
 #nav-desk > a:not(#link-bozza-nav):focus-visible::after { transform: scaleX(1); opacity: 1; }
@@ -170,6 +165,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   transition: box-shadow .4s ease;
 }
 #link-bozza-nav:hover { box-shadow: 0 12px 34px rgba(232, 28, 255, .5); }
+#link-bozza-nav:hover, #link-bozza-nav:focus-visible { transform: translateY(-4px) scale(1.2); }
 #bozza-norme, #bozza-hover {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -243,14 +239,73 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; animation: rimbalzo 1.8s ease-in-out infinite; z-index: 1; }
 @keyframes rimbalzo { 0%,100% { transform: translate(-50%, 0);} 50% { transform: translate(-50%, 10px);} }
 
-/* ---------- HERO: bottoni con FADE-IN (opacità + salita soft) ---------- */
+/* ---------- HERO: bottoni con FADE-IN (dissolvenza pura, senza transform:
+   il transform è riservato allo zoom hover globale richiesto sotto) ---------- */
 #bottone1, #bottone2-hero {
-  opacity: 0; transform: translateY(26px);
+  opacity: 0;
   animation: entrata-fade .9s cubic-bezier(.22,1,.36,1) forwards;
 }
 #bottone1 { animation-delay: .55s; }        /* entra dopo il titolo */
 #bottone2-hero { animation-delay: .75s; }   /* secondo, a cascata */
-@keyframes entrata-fade { to { opacity: 1; transform: translateY(0); } }
+@keyframes entrata-fade { to { opacity: 1; } }
+
+/* ============================================================
+   REGOLA GLOBALE RICHIESTA — OGNI bottone / scritta cliccabile /
+   link d'interazione ha all'hover:
+     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+     transform: scale(1.2);
+   (curva "back": leggero overshoot elastico). Il rientro usa la
+   stessa curva sulla transizione di base degli elementi.
+   ============================================================ */
+#nav-desk > a:not(#link-bozza-nav),
+#link-bozza-nav,
+#hamburger,
+#chiusura-drawer,
+#nav-mobile a,
+#logo-header,
+#freccia-scroll,
+#bottone1, #bottone1-footer,
+#bottone2, #bottone2-hero,
+#glow-button,
+.filtro-portfolio,
+.btn_seleziona,
+.card-container,
+#invia-recensione,
+#pulsante-invio,
+#ul2 a,
+#copyright-links a,
+details.domanda summary {
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+/* Zoom d'insieme per il glow button (i 4 div del bordo lo seguono) */
+#glow-button:hover,
+#glow-button:focus-visible {
+  transform: scale(1.2);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#nav-desk > a:not(#link-bozza-nav):hover,
+#nav-desk > a:not(#link-bozza-nav):focus-visible,
+#link-bozza-nav:hover,
+#link-bozza-nav:focus-visible,
+#hamburger:hover,
+#chiusura-drawer:hover,
+#nav-mobile a:hover,
+#logo-header:hover,
+#freccia-scroll:hover,
+#bottone1:hover, #bottone1:focus-visible,
+#bottone1-footer:hover,
+#bottone2:hover, #bottone2-hero:hover,
+.filtro-portfolio:hover,
+.btn_seleziona:hover,
+.card-container:hover,
+#invia-recensione:hover,
+#pulsante-invio:hover,
+#ul2 a:hover,
+#copyright-links a:hover,
+details.domanda summary:hover {
+  transform: scale(1.2);                        /* ZOOM 1.2 */
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
 /* ---------- BOTTONE BOZZA GRATUITA (#bottone1) — stile Uiverse gharsh11032000 ----------
    Colori del branding Webnix: ::before = gradiente brand (-45deg #e81cff→#40c9ff),
@@ -292,6 +347,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #bottone1-footer:hover::before, #bottone1-footer[attivo="si"]::before { transform: translate(0%, 0%); }
 #bottone1:hover::after, #bottone1:focus-visible::after, #bottone1[attivo="si"]::after,
 #bottone1-footer:hover::after, #bottone1-footer[attivo="si"]::after { transform: translate(0%, -200%); }
+/* Zoom 1.2 combinato con la salita del doppio pannello (REGOLA GLOBALE hover) */
+#bottone1:hover, #bottone1:focus-visible { transform: translateY(-8px) scale(1.2); }
+#bottone1-footer:hover { transform: translateY(-8px) scale(1.2); }
 #bottone1:focus, #bottone1-footer:focus { outline: none; }
 #bottone1:active, #bottone1-footer:active { scale: .95; }
 @media (max-width: 640px) { #bottone1 { width: min(280px, 88vw); } }
@@ -502,7 +560,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   transition: background .35s, color .35s, transform .2s;
   white-space: normal; overflow-wrap: anywhere; flex-shrink: 0;
 }
-.btn_seleziona:hover { background: linear-gradient(90deg, #0a2540, #1fd7e8); color: #04121f; transform: translateY(-2px); }
+.btn_seleziona:hover { background: linear-gradient(90deg, #0a2540, #1fd7e8); color: #04121f; transform: translateY(-2px) scale(1.2); }
 
 /* ---------- PORTFOLIO filtrabile ---------- */
 #fila-filtri { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
@@ -577,6 +635,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #glow-button:hover #glow-top, #glow-button:hover #glow-bottom { width: 100%; }
 #glow-button:hover #glow-left, #glow-button:hover #glow-right { height: 100%; }
 #glow-button:hover { box-shadow: 0 0 34px rgba(232,28,255,.5), 0 0 60px rgba(64,201,255,.3); }
+#glow-button:hover, #glow-button:focus-visible { transform: translateY(-6px) scale(1.2); }
 
 /* ---------- CTA FINALE ---------- */
 #cta-finale { text-align: center; padding: clamp(70px, 9vw, 110px) 20px; background: radial-gradient(700px 300px at 50% 0%, rgba(232,28,255,.16), transparent 70%), var(--sfondo-card-2); }
@@ -631,7 +690,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .icon-container { display: flex; align-items: center; gap: 0.5em; width: 100%; }
 .icon-container svg { width: 24px; height: 24px; transition: transform 0.3s ease; }
 .icon-container p { font-size: 0.9em; font-weight: 400; color: white; margin: 0; text-align: center; width: 100%; }
-.card-container:hover { transform: scale(1.1); z-index: 2; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+.card-container:hover { transform: scale(1.2); z-index: 2; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
 #cards:has(.card-container:hover) .card-container:not(:hover) {
   filter: blur(2px);
   opacity: 0.6;
@@ -695,3 +754,7 @@ details.domanda[open] summary { color: var(--ciano); }
   #loader-anello2 { animation: none; }
   #loader-progresso2 { width: 100% !important; transition: none !important; }
 }
+
+/* Override finale: trasform COMBINATI dove serve conservare un translate proprio
+   (la freccia scroll mantiene il suo bounce; i link nav mantengono la salita soft) */
+#freccia-scroll:hover { transform: translateX(-50%) scale(1.2); }
