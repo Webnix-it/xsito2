@@ -347,21 +347,44 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #metriche-noi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
 .metrica { text-align: center; background: var(--sfondo-card-2); border-radius: var(--raggio); padding: 24px 12px; border: 1px solid rgba(255,255,255,.06); }
 .metrica strong { display: block; font-size: clamp(1.5rem, 3.4vw, 2.2rem); background: var(--gradiente-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* ---------- FONT FACE (i file .ttf vanno placed in root; fallback sans-serif se assenti) ---------- */
+@font-face {
+  font-family: 'Heavitas';
+  src: url('Heavitas.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cocogoose';
+  src: url('Cocogoose-Pro-Bold-trial.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 .metrica span { color: var(--testo-3); font-size: .88rem; }
 
 /* ---------- COME FUNZIONA: timeline 4 step ---------- */
 #timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 #timeline::before { content: ""; position: absolute; top: 34px; left: 6%; right: 6%; height: 3px; background: linear-gradient(90deg, var(--viola), var(--ciano)); border-radius: 3px; opacity: .6; }
 .step-timeline { text-align: center; position: relative; padding-top: 0; }
-.numero-step {
+.wrapper-icona-step {
   width: 68px; height: 68px; margin: 0 auto 20px; border-radius: 50%;
   background: var(--sfondo-card-2); border: 2px solid var(--viola);
   display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 1.5rem; color: #fff; position: relative; z-index: 1;
+  position: relative; z-index: 1;
   box-shadow: 0 0 20px rgba(232,28,255,.45);
 }
-.step-timeline:nth-child(even) .numero-step { border-color: var(--ciano); box-shadow: 0 0 20px rgba(64,201,255,.45); }
-.step-timeline h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.step-timeline:nth-child(even) .wrapper-icona-step { border-color: var(--ciano); box-shadow: 0 0 20px rgba(64,201,255,.45); }
+.icona-step { width: 30px; height: 30px; display: block; }
+.step-timeline h3 {
+  font-family: 'Cocogoose', sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
 .step-timeline p { color: var(--testo-3); font-size: .92rem; }
 .step-timeline .tempo { display: inline-block; margin-top: 10px; font-size: .78rem; letter-spacing: 1px; color: var(--ciano); border: 1px solid rgba(64,201,255,.4); padding: 3px 12px; border-radius: 999px; }
 
