@@ -242,8 +242,13 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #titolo-hero { font-size: clamp(1.9rem, 5.2vw, 3.6rem); line-height: 1.15; max-width: 20ch; margin: 0 auto 22px; text-shadow: 0 4px 30px rgba(0,0,0,.45); }
 #sottotitolo-hero { max-width: 62ch; color: #f2f2f2; font-size: clamp(1rem, 2.1vw, 1.2rem); margin: 0 auto 40px; text-shadow: 0 2px 16px rgba(0,0,0,.4); }
 #fila-cta-hero { display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap; }
-#freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; animation: rimbalzo 1.8s ease-in-out infinite; z-index: 1; }
-@keyframes rimbalzo { 0%,100% { transform: translate(-50%, 0);} 50% { transform: translate(-50%, 10px);} }
+/* Freccia scroll: SU E GIÙ lenta e continua. Il movimento è sull'icona interna
+   (transform del figlio), così l'hover globale scale(1.2) sul link non può mai
+   sovrascrivere o "congelare" il bounce. */
+#freccia-scroll { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 1.4rem; z-index: 1; }
+#freccia-scroll > .fa-chevron-down,
+#freccia-scroll i { display: inline-block; animation: altalena-freccia 3s ease-in-out infinite; }
+@keyframes altalena-freccia { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(9px); } }
 
 /* ---------- HERO: bottoni con FADE-IN (dissolvenza pura, senza transform:
    il transform è riservato allo zoom hover globale richiesto sotto) ---------- */
@@ -762,5 +767,6 @@ details.domanda[open] summary { color: var(--ciano); }
 }
 
 /* Override finale: trasform COMBINATI dove serve conservare un translate proprio
-   (la freccia scroll mantiene il suo bounce; i link nav mantengono la salita soft) */
-#freccia-scroll:hover { transform: translateX(-50%) scale(1.2); }
+   (la freccia scroll mantiene il suo posizionamento; i link nav mantengono la salita soft) */
+#freccia-scroll:hover,
+#freccia-scroll:focus-visible { transform: translateX(-50%) scale(1.2); }
