@@ -81,67 +81,148 @@ const WEBNIX_CONFIG = {
   /* ---------- SERVIZI (trasparenza radicale: include / NON include) ---------- */
   services: [
     {
-      id: "servizio-base",
-      icon: "fa-solid fa-rocket",
-      name: "Sito Web Base",
-      price: "da €349 una tantum",
-      badge: "Porta d'ingresso",
+      id: "pacchetto-sito-web",
+      icon: "fa-solid fa-globe",
+      eyebrow: "Sito Web",
+      name: "Base",
+      price: "",
+      badge: "Icona Sito Web",
       highlight: true,
-      description: "La tua attività online, visibile su Google, in 48 ore dalla bozza.",
+      description: "Un sito elegante e funzionale, perfetto da condividere nella bio di Instagram, Facebook e altri social.",
+      detailsTitle: "Dettagli Pacchetto",
       includes: [
-        "Sito vetrina 1–3 pagine, codice pulito HTML/CSS/JS",
-        "Design responsive (desktop + smartphone)",
-        "Ottimizzazione SEO base + velocità di caricamento",
-        "Bozza gratuita in 48h, paghi solo se approvi",
-        "Hosting statico (Netlify / GitHub Pages) configurato"
+        "1 Pagina con design moderno e personalizzato.",
+        "Sito responsive: perfetto su smartphone, tablet e desktop.",
+        "Sviluppo con HTML, CSS e JavaScript.",
+        "Hosting gratuito e permanente su GitHub Pages o Netlify (entrambi veloci e affidabili). Possibilità di usare un altro hosting su richiesta.",
+        "Integrazione con i tuoi profili social (Instagram, Facebook, LinkedIn, ecc.).",
+        "CookieBot gratuito per la gestione dei cookie (conformità GDPR di base).",
+        "Modulo di contatto funzionante.",
+        "Pagine legali di base (generate con IA): Privacy Policy, Termini e Condizioni, Cookie Policy. ⚠️ Attenzione: queste pagine sono generate automaticamente e non sostituiscono una consulenza legale. Consigliamo di farle validare da un professionista per una conformità completa.",
+        "30 giorni di assistenza gratuita dopo la consegna: fino a 3 modifiche gratuite (testi, immagini, link, ecc.). Dopo le 3 modifiche o il termine del periodo, eventuali interventi saranno valutati separatamente.",
+        "Consegna in 5-12 giorni lavorativi"
       ],
       excludes: [
-        "Gestione contenuti mensile (serve il pacchetto Avvio)",
-        "E-commerce e area riservata",
-        "Campagne pubblicitarie (Google/Meta Ads)"
+        "Ottimizzazione per i motori di ricerca (SEO): il sito non è pensato per apparire su Google. È progettato per essere condiviso tramite link diretto (es. bio di Instagram, WhatsApp, ecc.).",
+        "Dominio personalizzato: la registrazione del dominio (es. www.tuositoweb.it) non è inclusa.",
+        "Servizi di terze parti: strumenti come Iubenda, PayPal, Stripe o newsletter non sono inclusi.",
+        "Manutenzione post-consegna: aggiornamenti successivi non sono inclusi nel pacchetto."
       ],
-      cta: "Richiedi la bozza"
+      faqDomanda: "Quali sono i costi futuri per mantenere il sito web attivo?",
+      faqRisposta: "Nessun costo",
+      cta: "Seleziona"
     },
     {
-      id: "servizio-avvio",
-      icon: "fa-solid fa-map-location-dot",
-      name: "Avvio Locale",
-      price: "da €549 una tantum",
-      badge: "Per nuove attività",
+      id: "pacchetto-creazione-logo",
+      icon: "fa-solid fa-pen-nib",
+      eyebrow: "Creazione",
+      name: "Brand Identity",
+      price: "",
+      badge: "Icona Logo",
       highlight: false,
-      description: "Sito + Google Business Profile: invisibile su Maps non sei più.",
+      description: "Rendi unico il tuo brand con un logo professionale.",
+      detailsTitle: "Dettagli Pacchetto",
       includes: [
-        "Tutto il pacchetto Sito Web Base",
-        "Creazione/ottimizzazione Google Business Profile",
-        "SEO locale (genova, quartieri, keyword di zona)",
-        "Form contatti collegato a WhatsApp/email",
-        "Guida scritta per gestire i recapiti da solo"
+        "Logo personalizzato",
+        "Favicon (per web)",
+        "Palette colori personalizzata.",
+        "Selezione tipografica (font per titoli, testi e accenti).",
+        "Creazione di pattern o texture uniche per il brand.",
+        "Set di icone o simboli coordinati allo stile del logo.",
+        "Definizione dello stile fotografico (moodboard e guida visiva).",
+        "Anteprima del logo su prodotti (t-shirt, tazze, badge, ecc.)",
+        "Linee guida di composizione e uso del logo su sfondi chiari/scuri.",
+        "Tone of Voice (voce del brand: formale, amichevole, creativa, ecc.).",
+        "Mini Brand Book in PDF (palette, font, loghi, pattern, stili e regole d'uso).",
+        "Consegna in 5–8 giorni lavorativi."
       ],
       excludes: [
-        "Recensioni fittizie (non le facciamo, né le compriamo)",
-        "Posizionamento garantito in 1ª pagina (chi lo promette mente)"
+        "Naming (creazione del nome del brand).",
+        "Copywriting o slogan pubblicitario.",
+        "Materiali stampati (biglietti, brochure, packaging).",
+        "Stampa fisica (forniamo solo il file digitale pronto per la stampa).",
+        "Template social (opzionale +20€)."
       ],
-      cta: "Parliamone"
+      cta: "Seleziona"
     },
     {
-      id: "servizio-brand",
-      icon: "fa-solid fa-palette",
-      name: "Identità & Brand",
-      price: "da €249 una tantum",
-      badge: "Logo + coordinati",
+      id: "pacchetto-grafica",
+      icon: "fa-solid fa-image",
+      eyebrow: "Creazione",
+      name: "Grafica",
+      price: "",
+      badge: "Icona Locandina",
       highlight: false,
-      description: "Logo, palette e materiali: professionale dalla prima impressione.",
+      description: "Dai visibilità ai tuoi eventi, prodotti o promozioni con locandine dal design professionale e d'impatto.",
+      detailsTitle: "Dettagli Pacchetto",
       includes: [
-        "Logo vettoriale + varianti (clearspace, mono, favicon)",
-        "Palette colori e coppia tipografica",
-        "Biglietto da visita e template social",
-        "File sorgente consegnati: il brand è tuo"
+        "1 Grafica personalizzata",
+        "2 proposte di design per scegliere lo stile che preferisci",
+        "Formati file (PNG, JPG ecc..)",
+        "Formato per social o stampa",
+        "1 revisione inclusa",
+        "Copywriting o slogan pubblicitario.",
+        "Consegna in 1-3 giorni lavorativi (spesso entro 24 ore)"
       ],
       excludes: [
-        "Stampa materiale fisico (forniamo i file pronti)",
-        "Rifacimenti illimitati: 2 revisioni incluse"
+        "Stampa fisica (forniamo solo il file digitale pronto per la stampa)."
       ],
-      cta: "Metti online il sito"
+      cta: "Seleziona"
+    },
+    {
+      id: "pacchetto-rebranding-social",
+      icon: "fa-solid fa-share-nodes",
+      eyebrow: "",
+      name: "Rebranding Social",
+      price: "",
+      badge: "Icona Social",
+      highlight: false,
+      description: "Dai un nuovo look ai tuoi profili social e migliora la tua presenza online.",
+      detailsTitle: "Dettagli Pacchetto Social",
+      includes: [
+        "Rebranding dei post e profilo (colori, layout e stile)",
+        "Aggiornamento della biografia e delle informazioni profilo",
+        "Consigli per un impatto visivo più forte",
+        "Strategie per rendere il tuo profilo più professionale e coerente",
+        "Mini guida step by step: 'Come andare virale in 30 giorni'",
+        "'Consigli per aumentare l'engagement organico'",
+        "Strategia settimanale: cosa postare, quando e perché",
+        "5+ prompt pronti per ChatGPT per generare idee, testi e caption",
+        "Template per contenuti virali (reels e post)",
+        "Creazione logo (se necessario).",
+        "Consegna completa entro 24-48 ore"
+      ],
+      excludes: [],
+      cta: "Seleziona"
+    },
+    {
+      id: "pacchetto-restyling-sito",
+      icon: "fa-solid fa-wand-magic-sparkles",
+      eyebrow: "",
+      name: "Restyling Sito Web",
+      price: "",
+      badge: "Icona Copywriting",
+      highlight: false,
+      description: "Rinnova il tuo sito esistente con un design moderno, responsive e più efficace.",
+      detailsTitle: "Dettagli Pacchetto Restyling",
+      includes: [
+        "Nuovo design moderno e professionale, coerente con il tuo brand",
+        "Versione completamente responsive (adatta a smartphone, tablet e desktop)",
+        "Miglioramento dell'usabilità e della navigazione",
+        "Aggiornamento di testi e immagini (se forniti)",
+        "Logo personalizzato creato da zero (se necessario)",
+        "Consegna in 3-6 giorni lavorativi"
+      ],
+      excludes: [
+        "Modulo di contatto.",
+        "Integrazione con servizi esterni (es. Calendly, EmailJS, newsletter).",
+        "Funzionalità dinamiche (form, login, carrello).",
+        "Creazione di nuove pagine o contenuti non forniti.",
+        "Trasferimento o gestione del dominio.",
+        "Manutenzione o aggiornamenti futuri.",
+        "Pagine legali."
+      ],
+      cta: "Seleziona"
     }
   ],
 

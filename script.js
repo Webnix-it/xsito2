@@ -144,58 +144,104 @@
       card.setAttribute("reveal", "");
       card.setAttribute("delay", String((i % 3) + 1));
 
+      /* --- Intestazione: eyebrow (es. "Sito Web") + nome grande (es. "Base") --- */
       var intest = document.createElement("div");
       intest.className = "intestazione-servizio";
-      var icona = document.createElement("i");
-      icona.className = s.icon; // fa-solid*: unica eccezione tecnica Font Awesome
+      if (s.eyebrow) {
+        var eye = document.createElement("span");
+        eye.className = "eyebrow-card-servizio";
+        eye.textContent = s.eyebrow;
+        intest.appendChild(eye);
+      }
       var h3 = document.createElement("h3");
       h3.textContent = s.name;
-      intest.appendChild(icona); intest.appendChild(h3);
+      intest.appendChild(h3);
 
-      var prezzo = document.createElement("p");
-      prezzo.className = "prezzo-servizio"; prezzo.textContent = s.price;
+      /* --- Badge con icona dedicata (es. "Icona Sito Web") --- */
       var etich = document.createElement("p");
-      etich.className = "etichetta-servizio"; etich.textContent = s.badge;
+      etich.className = "etichetta-servizio";
+      var iconaBadge = document.createElement("i");
+      iconaBadge.className = s.icon; // fa-solid*: unica eccezione tecnica Font Awesome
+      var testoBadge = document.createElement("span");
+      testoBadge.textContent = s.badge;
+      etich.appendChild(iconaBadge); etich.appendChild(testoBadge);
+
+      /* --- Prezzo (solo se presente in config) --- */
+      var prezzo = document.createElement("p");
+      prezzo.className = "prezzo-servizio";
+      prezzo.textContent = s.price || "";
+      if (!s.price) prezzo.style.display = "none";
+
       var desc = document.createElement("p");
       desc.className = "descrizione-servizio"; desc.textContent = s.description;
 
       var lista = document.createElement("div");
       lista.className = "lista-trasparenza";
 
-      var hIn = document.createElement("h4");
-      if (i === 0) hIn.id = "heading-includes";
-      hIn.textContent = "✔ Cosa include";
-      var ulIn = document.createElement("ul"); ulIn.className = "include";
+      var hDet = document.createElement("h4");
+      hDet.setAttribute("dettagli-pacchetto", "si");
+      hDet.textContent = s.detailsTitle || "Dettagli Pacchetto";
+      var ulDet = document.createElement("ul"); ulDet.className = "include";
       s.includes.forEach(function (t) {
         var li = document.createElement("li");
         var ic = document.createElement("i"); ic.className = "fa-solid fa-check";
         var sp = document.createElement("span"); sp.textContent = t;
-        li.appendChild(ic); li.appendChild(sp); ulIn.appendChild(li);
+        li.appendChild(ic); li.appendChild(sp); ulDet.appendChild(li);
       });
 
-      var hEx = document.createElement("h4");
-      if (i === 0) hEx.id = "heading-excludes";
-      hEx.textContent = "✘ Cosa NON include";
-      var ulEx = document.createElement("ul"); ulEx.className = "esclude";
-      s.excludes.forEach(function (t) {
-        var li = document.createElement("li");
-        var ic = document.createElement("i"); ic.className = "fa-solid fa-xmark";
-        var sp = document.createElement("span"); sp.textContent = t;
-        li.appendChild(ic); li.appendChild(sp); ulEx.appendChild(li);
-      });
+      lista.appendChild(hDet); lista.appendChild(ulDet);
 
-      lista.appendChild(hIn); lista.appendChild(ulIn);
-      lista.appendChild(hEx); lista.appendChild(ulEx);
+      if (s.excludes && s.excludes.length) {
+        var hEx = document.createElement("h4");
+        hEx.setAttribute("non-includes", "si");
+        hEx.textContent = "❌ Cosa NON è incluso:";
+        var ulEx = document.createElement("ul"); ulEx.className = "esclude";
+        s.excludes.forEach(function (t) {
+          var li = document.createElement("li");
+          var ic = document.createElement("i"); ic.className = "fa-solid fa-xmark";
+          var sp = document.createElement("span"); sp.textContent = t;
+          li.appendChild(ic); li.appendChild(sp); ulEx.appendChild(li);
+        });
+        lista.appendChild(hEx); lista.appendChild(ulEx);
+      }
+
+      /* --- Box FAQ (es. costi futuri -> Nessun Costo) --- */
+      if (s.faqDomanda) {
+        var boxFaq = document.createElement("div");
+        boxFaq.setAttribute("box-faq-servizio", "si");
+        var dFaq = document.createElement("p");
+        dFaq.setAttribute("faq-domanda", "si");
+        dFaq.innerHTML = ""; // sicurezza: niente HTML crudo
+        var qIcon = document.createElement("i"); qIcon.className = "fa-solid fa-circle-question";
+        var qTxt = document.createElement("span"); qTxt.textContent = s.faqDomanda;
+        dFaq.appendChild(qIcon); dFaq.appendChild(qTxt);
+        var rFaq = document.createElement("p");
+        rFaq.setAttribute("faq-risposta", "si");
+        var aIcon = document.createElement("i"); aIcon.className = "fa-solid fa-circle-check";
+        var aTxt = document.createElement("span"); aTxt.textContent = s.faqRisposta;
+        rFaq.appendChild(aIcon); rFaq.appendChild(aTxt);
+        boxFaq.appendChild(dFaq); boxFaq.appendChild(rFaq);
+        lista.appendChild(boxFaq);
+      }
 
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "btn_seleziona";
       btn.textContent = s.cta;
+      var nomePacchetto = (s.eyebrow ? s.eyebrow + " " : "") + s.name;
       btn.addEventListener("click", function () {
+        /* Mappa il nome pacchetto -> opzione del menu a tendina */
+        var mappaOpzioni = {
+          "Sito Web Base": "Sito Web Base",
+          "Creazione Brand Identity": "Creazione Logo — Brand Identity",
+          "Creazione Grafica": "Creazione Grafica / Locandine",
+          "Rebranding Social": "Rebranding Social",
+          "Restyling Sito Web": "Restyling Sito Web"
+        };
         var contatto = document.getElementById("contatti");
         if (contatto) contatto.scrollIntoView({ behavior: "smooth" });
         var sel = document.getElementById("campo-servizio");
-        if (sel) sel.value = s.name;
+        if (sel) sel.value = mappaOpzioni[nomePacchetto] || "Non lo so ancora";
         var msg = document.getElementById("messaggio-modulo");
         if (msg) { msg.removeAttribute("tipo"); msg.textContent = ""; }
       });
