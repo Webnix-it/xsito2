@@ -675,14 +675,25 @@
   if (!domande.length) return;
   domande.forEach(item => {
     const domanda = item.querySelector('.faq-question');
-    domanda.addEventListener('click', () => item.classList.toggle('aperta'));
+    const pulsa = () => {
+      item.classList.toggle('aperta');
+      // animazione elastica al click (come i bottoni): riavvia lo stato "cliccata"
+      item.classList.remove('cliccata');
+      void item.offsetWidth; // reflow per rilanciare la keyframe
+      item.classList.add('cliccata');
+    };
+    domanda.addEventListener('click', pulsa);
     domanda.setAttribute('tabindex', '0');
     domanda.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.classList.toggle('aperta'); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pulsa(); }
     });
+    item.addEventListener('animationend', () => item.classList.remove('cliccata'));
   });
   const campo = document.getElementById('search-input');
   if (campo) {
+    const boxRicerca = document.getElementById('contenitore-ricerca');
+    campo.addEventListener('focus', () => { if (boxRicerca) boxRicerca.classList.add('cliccata'); });
+    campo.addEventListener('blur',  () => { if (boxRicerca) boxRicerca.classList.remove('cliccata'); });
     campo.addEventListener('input', () => {
       const q = campo.value.trim().toLowerCase();
       domande.forEach(item => {
