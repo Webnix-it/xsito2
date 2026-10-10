@@ -613,7 +613,7 @@
     if (infoOr) infoOr.textContent = CFG.contact.hours;
   }
 
-  /* ---------- PACCHETTI (servizi.html): slider, scopri, acquista ---------- */
+  /* ---------- PACCHETTI (servizi.html): scopri, acquista ---------- */
   var NOMI_SERVIZI = {
     "sito-web": "Sito Web - Base",
     "creazione-logo": "Creazione Logo",
@@ -626,36 +626,6 @@
   };
 
   function inizializzaPacchetti() {
-    /* Slider immagini: una slide alla volta, con fade */
-    document.querySelectorAll("#contenitore-slider").forEach(function (box) {
-      var slide = box.querySelectorAll("[slide]");
-      if (!slide.length) return;
-      var i = 0;
-      function mostra(n) {
-        i = (n + slide.length) % slide.length;
-        for (var k = 0; k < slide.length; k++) {
-          slide[k].setAttribute("slide", k === i ? "attivo" : "");
-        }
-      }
-      var slider = box.closest ? box.closest("#slider-immagini") : null;
-      if (slider) {
-        var sx = slider.querySelector("#freccia-sinistra");
-        var dx = slider.querySelector("#freccia-destra");
-        if (sx) sx.addEventListener("click", function () { mostra(i - 1); });
-        if (dx) dx.addEventListener("click", function () { mostra(i + 1); });
-      }
-      mostra(0);
-      /* Swipe su smartphone */
-      var x0 = null;
-      box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-      box.addEventListener("touchend", function (e) {
-        if (x0 === null) return;
-        var dxp = e.changedTouches[0].clientX - x0;
-        if (Math.abs(dxp) > 40) mostra(dxp < 0 ? i + 1 : i - 1);
-        x0 = null;
-      }, { passive: true });
-    });
-
     /* "Scopri cosa offriamo": apri/chiudi il dettaglio */
     document.querySelectorAll("#prodotto-card").forEach(function (card) {
       var btn = card.querySelector("#bottone-scopri");
@@ -665,13 +635,13 @@
         var aperto = det.getAttribute("aperto") === "si";
         det.setAttribute("aperto", aperto ? "" : "si");
         btn.textContent = aperto
-          ? (btn.getAttribute("data-testo-chiuso") || "✅ Scopri cosa offriamo")
-          : "⬆️ Chiudi il dettaglio";
-        if (!btn.getAttribute("data-testo-chiuso")) btn.setAttribute("data-testo-chiuso", btn.textContent.replace("⬆️ Chiudi il dettaglio", "✅ Scopri cosa offriamo"));
+          ? (btn.getAttribute("data-testo-chiuso") || "\u2705 Scopri cosa offriamo")
+          : "\u2b06\ufe0f Chiudi il dettaglio";
+        if (!btn.getAttribute("data-testo-chiuso")) btn.setAttribute("data-testo-chiuso", btn.textContent.replace("\u2b06\ufe0f Chiudi il dettaglio", "\u2705 Scopri cosa offriamo"));
       });
     });
 
-    /* "Acquista questo pacchetto" → WhatsApp precompilato */
+    /* "Acquista questo pacchetto" \u2192 WhatsApp precompilato */
     document.querySelectorAll("#bottone-acquista").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var chiave = btn.getAttribute("data-servizio") || "";
@@ -697,4 +667,30 @@
     inizializzaPacchetti();
     inizializzaReveal();
   });
+})();
+
+/* ============ FAQ: accordion + ricerca ============ */
+(function () {
+  const domande = document.querySelectorAll('.faq-item');
+  if (!domande.length) return;
+  domande.forEach(item => {
+    const domanda = item.querySelector('.faq-question');
+    domanda.addEventListener('click', () => item.classList.toggle('aperta'));
+    domanda.setAttribute('tabindex', '0');
+    domanda.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.classList.toggle('aperta'); }
+    });
+  });
+  const campo = document.getElementById('search-input');
+  if (campo) {
+    campo.addEventListener('input', () => {
+      const q = campo.value.trim().toLowerCase();
+      domande.forEach(item => {
+        const testo = item.textContent.toLowerCase();
+        const ok = !q || testo.includes(q);
+        item.classList.toggle('nascosta-ricerca', !ok);
+        if (q && ok) item.classList.add('aperta');
+      });
+    });
+  }
 })();
