@@ -1422,3 +1422,182 @@ body:has(#sezione-faq) { background: #ffffff; }
 @media (max-width: 560px) {
   #icona-prodotto svg { width: 76px; height: 76px; padding: 20px; }
 }
+
+/* ============================================================
+   PAGINA CHI SIAMO — STILE RICHIESTO (container1 + contatti info)
+   ============================================================ */
+#sezione-chi-siamo { padding: clamp(50px, 7vw, 80px) 20px 0; }
+
+#titolochisiamo {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  color: #ffffff;
+  text-align: center;
+  margin: 0 auto 20px;
+  font-weight: 700;
+  max-width: 1100px;
+}
+
+#container1 {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.section-text {
+  font-size: 1.1rem;
+  color: #bbbbbb;
+  margin-bottom: 20px;
+  text-align: justify;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.highlight {
+  color: #00b4fe;
+  font-weight: 600;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #00b4fe;
+  color: white;
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.cta-button:hover,
+.cta-button:focus-visible {
+  background-color: #006e99;
+  transform: scale(1.2);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s !important;
+}
+
+.cta-button:active { transform: scale(1.05); }
+
+/* Box consulenza gratuita */
+#consultazione-box {
+  background-color: #ffffff;
+  border-left: 5px solid #d60281;
+  padding: 25px;
+  margin: 30px auto;
+  border-radius: 8px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+#consultazione-box h3 {
+  font-size: 1.5rem;
+  color: #00b4fe;
+  margin-bottom: 15px;
+  font-weight: 900;
+}
+
+#consultazione-box p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* --- SEZIONE CONTATTI INFORMAZIONI --- */
+#infoContactsSection {
+  max-width: 900px;
+  margin: 80px auto 60px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+#infoContactTitle {
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+#infoContactSubtitle {
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#infoContactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.infoContactItem {
+  background-color: #161b22;
+  border-radius: 15px;
+  padding: 40px 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #c9d1d9;
+}
+
+.infoContactItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px #db0083;
+}
+
+.infoContactItem .icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.infoContactItem h3 {
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.infoContactItem p {
+  font-size: 17px;
+  color: #c9d1d9;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.infoSocialLink {
+  color: #c9d1d9;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.infoSocialLink:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Responsive Chi Siamo */
+@media (max-width: 768px) {
+  #titolochisiamo { font-size: 2rem; }
+  .section-text { font-size: 1rem; }
+  #consultazione-box { padding: 20px 15px; }
+}
+
+@media (max-width: 480px) {
+  .section-text { font-size: 0.95rem; text-align: left; }
+  #titolochisiamo { font-size: 1.8rem; }
+  #infoContactSubtitle { font-size: 16px; }
+  .infoContactItem { padding: 30px 18px; }
+}
