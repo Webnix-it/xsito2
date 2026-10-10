@@ -10,33 +10,104 @@
 
   var CFG = window.WEBNIX_CONFIG || null;
 
-  /* ---------- LOADER GLOBALE (#global-loader2) ---------- */
+  /* ---------- LOADER GLOBALE (#global-loader2) con barra REALMENTE funzionante ----------
+     La percentuale NON è simulata: viene misurata davvero su:
+     - risorse della pagina (immagini, CSS, JS, font) tramite performance API
+     - richieste XHR/fetch (es. caricamento recensioni Firebase)
+     La barra resta visibile fino al completamento reale (min 700ms, max 6s). */
   function avviaLoader() {
     var loader = document.getElementById("global-loader2");
     if (!loader) return;
     document.body.style.overflow = "hidden"; // scroll lock
     var barra = document.getElementById("progress-bar-fill2");
-    var p = 0;
-    var timer = setInterval(function () {
-      p = Math.min(100, p + Math.random() * 18 + 6);
+    var etichetta = document.getElementById("loading-text2");
+
+    var totaleR = 0, caricateR = 0;   // risorse della pagina
+    var totaleX = 0, caricateX = 0;   // richieste XHR/fetch
+    var chiuso = false, timerTick = null;
+
+    function aggiornaBarra() {
+      var pesoR = 0.7, pesoX = 0.3;
+      var pr = totaleR ? caricateR / totaleR : 0;
+      var px = totaleX ? caricateX / totaleX : 1;
+      var p = Math.round((pr * pesoR + px * pesoX) * 100);
+      if (p < 0) p = 0; if (p > 100) p = 100;
       if (barra) barra.style.width = p + "%";
-      if (p >= 100) clearInterval(timer);
-    }, 120);
+      if (etichetta) etichetta.textContent = "Caricamento in corso... " + p + "%";
+      return p;
+    }
+
+    function misuraRisorse() {
+      try {
+        if (!window.performance || !performance.getEntriesByType) return;
+        var res = performance.getEntriesByType("resource");
+        totaleR = res.length;
+        caricateR = 0;
+        for (var i = 0; i < res.length; i++) {
+          var e = res[i];
+          if (e.responseEnd > 0) caricateR++;
+        }
+      } catch (err) { /* misurazione non supportata: si chiude al load */ }
+    }
+
+    /* Hook XHR (puro Vanilla JS): ogni ajax aumenta il totale e riduce al termine */
+    try {
+      var XHRO = window.XMLHttpRequest;
+      if (XHRO) {
+        window.XMLHttpRequest = function () {
+          var xhr = new XHRO();
+          totaleX++;
+          xhr.addEventListener("loadend", function () { caricateX++; aggiornaBarra(); });
+          xhr.addEventListener("error", function () { caricateX++; aggiornaBarra(); });
+          aggiornaBarra();
+          return xhr;
+        };
+        window.XMLHttpRequest.prototype = XHRO.prototype;
+      }
+      if (window.fetch) {
+        var fetchOrig = window.fetch;
+        window.fetch = function () {
+          totaleX++;
+          aggiornaBarra();
+          return fetchOrig.apply(window, arguments).finally(function () {
+            caricateX++; aggiornaBarra();
+          });
+        };
+      }
+    } catch (err) { /* niente hook: fallback su load/timeout */ }
 
     function chiudi() {
-      clearInterval(timer);
+      if (chiuso) return;
+      chiuso = true;
+      clearInterval(timerTick);
       if (barra) barra.style.width = "100%";
+      if (etichetta) etichetta.textContent = "Caricamento completato ✓";
       setTimeout(function () {
         loader.style.opacity = "0";
         setTimeout(function () {
-          loader.style.display = "none"; // fix: rimuovi dal flusso dopo dissolvenza
+          loader.style.display = "none"; // rimuovi dal flusso dopo dissolvenza
           document.body.style.overflow = "";
         }, 650);
-      }, 300);
+      }, 350);
     }
-    if (document.readyState === "complete") chiudi();
-    else window.addEventListener("load", chiudi);
-    setTimeout(chiudi, 4000); // timeout di sicurezza
+
+    /* Tick: ricalcola le risorse che arrivano durante il caricamento */
+    timerTick = setInterval(function () { misuraRisorse(); aggiornaBarra(); }, 90);
+
+    /* Chiusura: quando la pagina è davvero pronta E la barra ha mostrato il progresso (min 700ms) */
+    var pronto = false, partenza = Date.now();
+    function provaChiusura() {
+      if (!pronto) return;
+      misuraRisorse();
+      var p = aggiornaBarra();
+      var trascorso = Date.now() - partenza;
+      if (p >= 100 && trascorso >= 700) chiudi();
+      else if (trascorso >= 5200) chiudi(); // rete lenta: chiudi comunque
+    }
+    function onReady() { pronto = true; setTimeout(provaChiusura, 120); }
+    if (document.readyState === "complete") onReady();
+    else window.addEventListener("load", onReady);
+    setTimeout(chiudi, 6000); // timeout di sicurezza assoluto
   }
 
   /* ---------- HEADER NAV: trasparente in cima, colorato allo scroll ---------- */
