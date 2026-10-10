@@ -216,9 +216,25 @@ button, input, textarea, select { font: inherit; color: inherit; }
   position: relative; z-index: 1;
   color: #fff; font-weight: 600; font-size: .95rem;
   padding: .55em 1.05em; border-radius: 999px;
-  text-decoration: none; white-space: nowrap; display: inline-block;
+  text-decoration: none; white-space: nowrap; display: inline-flex;
+  align-items: center; justify-content: center; min-width: 3.4em;
   /* transizione + zoom hover gestiti dalla REGOLA GLOBALE richiesta (all .6s back, scale 1.2) */
 }
+/* Hover nav: la parola sparisce e al suo posto appare l'icona (crossfade elastico) */
+.etichetta-nav,
+.icona-nav { transition: opacity .6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform .6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.icona-nav { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; opacity: 0; transform: scale(.4) rotate(-25deg); pointer-events: none; }
+#nav-desk > a:hover .etichetta-nav,
+#nav-desk > a:focus-visible .etichetta-nav { opacity: 0; transform: scale(.7); }
+#nav-desk > a:hover .icona-nav,
+#nav-desk > a:focus-visible .icona-nav { opacity: 1; transform: scale(1) rotate(0deg); }
+/* Icona del link attivo: riprende il gradiente brand al posto del clip-text */
+#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav) .icona-nav {
+  background: linear-gradient(90deg, var(--viola), var(--ciano));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+
 /* Link Admin: solo icona scudo, in un cerchietto dedicato */
 #nav-desk > a[href="admin.html"] {
   padding: .55em .8em;
