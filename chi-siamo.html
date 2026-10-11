@@ -111,22 +111,40 @@
       </div>
     </section>
 
-    <!-- === SEZIONE CONTATTI INFORMAZIONI (ISOLATA) === -->
+    <!-- === SEZIONE CONTATTI INFORMAZIONI (CARD A SINISTRA + BOX WHATSAPP A DESTRA) === -->
     <section id="infoContactsSection">
       <h1 id="infoContactTitle" reveal>Contattami</h1>
       <p id="infoContactSubtitle" reveal>Hai bisogno di un'informazione o vuoi semplicemente parlarne? Scrivimi direttamente!</p>
-      <div id="infoContactGrid">
-        <div class="infoContactItem" reveal delay="1">
-          <span class="icon fas fa-envelope"></span>
-          <h3>Email</h3>
-          <p><a href="mailto:webnixit@gmail.com?subject=Richiesta%20di%20preventivo&body=Ciao!%20Sto%20cercando%20qualcuno%20che%20mi%20aiuti%20a%20creare%20una%20presenza%20online.%20Da%20dove%20possiamo%20partire?" style="text-decoration: none; color: inherit;">webnixit@gmail.com</a></p>
+      <div id="contatti-a-destra-e-sinistra">
+
+        <!-- Colonna sinistra: card Email + Instagram -->
+        <div id="infoContactGrid">
+          <div class="infoContactItem" reveal delay="1">
+            <span class="icon fas fa-envelope"></span>
+            <h3>Email</h3>
+            <p><a href="mailto:webnixit@gmail.com?subject=Richiesta%20di%20preventivo&body=Ciao!%20Sto%20cercando%20qualcuno%20che%20mi%20aiuti%20a%20creare%20una%20presenza%20online.%20Da%20dove%20possiamo%20partire?" style="text-decoration: none; color: inherit;">webnixit@gmail.com</a></p>
+          </div>
+
+          <div class="infoContactItem" reveal delay="2">
+            <span class="icon fab fa-instagram"></span>
+            <h3>Instagram</h3>
+            <p><a href="https://instagram.com/webnix.it" target="_blank" rel="noopener" class="infoSocialLink">@webnix.it</a></p>
+          </div>
         </div>
 
-        <div class="infoContactItem" reveal delay="2">
-          <span class="icon fab fa-instagram"></span>
-          <h3>Instagram</h3>
-          <p><a href="https://instagram.com/webnix.it" target="_blank" rel="noopener" class="infoSocialLink">@webnix.it</a></p>
+        <!-- Colonna destra: box WhatsApp con QR -->
+        <div id="whatsappContainer">
+          <h2 id="whatsappTitle"><i class="fa-brands fa-whatsapp" id="whatsappIcon"></i> Parla con Noi</h2>
+          <p id="whatsappText">Contattaci subito in modo facile e veloce!</p>
+          <div id="qrContainer">
+            <img src="qrwhatsapp.png" onerror="this.onerror=null;this.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fwa.me%2F14132259397'" alt="Scansiona per chattare su WhatsApp" id="whatsappQR">
+          </div>
+          <p id="qrDescription">Scansiona il QR per chattare direttamente con noi su WhatsApp!</p>
+          <a href="https://wa.me/14132259397?text=Ciao!%20Sto%20cercando%20qualcuno%20che%20mi%20aiuti%20a%20creare%20una%20presenza%20online.%20Da%20dove%20possiamo%20partire?" target="_blank" rel="noopener noreferrer" id="whatsappButton">
+            <i class="fa-brands fa-whatsapp" id="whatsappIconBottone"></i> Apri WhatsApp
+          </a>
         </div>
+
       </div>
     </section>
 

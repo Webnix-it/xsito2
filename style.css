@@ -1625,3 +1625,156 @@ body:has(#sezione-faq) { background: #ffffff; }
   #infoContactSubtitle { font-size: 16px; }
   .infoContactItem { padding: 30px 18px; }
 }
+
+/* === CHI SIAMO: BOX WHATSAPP QR (a destra delle card contatti) === */
+#contatti-a-destra-e-sinistra {
+  display: flex;
+  gap: 30px;
+  align-items: stretch;
+  justify-content: center;
+}
+
+#contatti-a-destra-e-sinistra > #infoContactGrid {
+  flex: 1;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+#whatsappContainer {
+  flex: 1;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #d0f0c0 0%, #a8e6a1 100%);
+  border-radius: 18px;
+  border: 2px solid #a2d99c;
+  opacity: 0;
+  transform: translateX(30px);
+  animation: slideInRight 0.8s ease-out 0.3s forwards;
+  align-items: center;
+  flex-direction: column;
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+#whatsappTitle {
+  font-size: 1.7em;
+  color: #25d366;
+  margin-bottom: -20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#whatsappText {
+  color: #2e7d32;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+#qrContainer {
+  margin: 20px 0;
+  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: floatQR 3s ease-in-out infinite;
+}
+
+@keyframes floatQR {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+#whatsappQR {
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#qrDescription {
+  font-size: 0.95em;
+  color: #388e3c;
+  margin: 10px 0 15px;
+  font-style: italic;
+}
+
+#whatsappButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #25d366;
+  color: white;
+  padding: 14px 26px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.38);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  -webkit-box-reflect: below 5px linear-gradient(transparent, #00000055);
+}
+
+#whatsappButton:hover {
+  background-color: #128c7e;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(18, 140, 126, 0.4);
+}
+
+#whatsappButton:active {
+  transform: translateY(-2px);
+}
+
+#whatsappIcon,
+#whatsappIconBottone {
+  font-size: 1.4em;
+  transition: transform 0.3s ease;
+}
+
+#whatsappButton:hover #whatsappIconBottone {
+  transform: rotate(12deg) scale(1.15);
+}
+
+@media (max-width: 768px) {
+  #contatti-a-destra-e-sinistra {
+    display: block;
+  }
+  #whatsappContainer {
+    max-width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUpChi 0.8s ease-out 0.3s forwards;
+  }
+  @keyframes fadeInUpChi {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  #whatsappQR { width: 140px; height: 140px; }
+  #whatsappTitle { font-size: 1.4em; margin-bottom: -10px; }
+  #whatsappButton { font-size: 1em; padding: 12px 20px; }
+}
+
+@media (max-width: 480px) {
+  #whatsappQR { width: 120px; height: 120px; }
+  #whatsappTitle { font-size: 1.3em; }
+  #whatsappButton { font-size: 0.95em; padding: 10px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #whatsappContainer { animation: none; opacity: 1; transform: none; }
+  #qrContainer { animation: none; }
+}
