@@ -229,15 +229,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 #nav-desk > a:hover .icona-nav,
 #nav-desk > a:focus-visible .icona-nav { opacity: 1; transform: scale(1) rotate(0deg); }
 /* Link ATTIVO (pagina corrente): di default mostra l'ICONA colorata, non la scritta */
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav) .etichetta-nav { opacity: 0; transform: scale(.7); }
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav) .icona-nav { opacity: 1; transform: scale(1) rotate(0deg); }
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav) .etichetta-nav { opacity: 0; transform: scale(.7); }
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav) .icona-nav { opacity: 1; transform: scale(1) rotate(0deg); }
 /* Inversione sul link attivo: all'hover la scritta riappare e l'icona svanisce */
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav):hover .etichetta-nav,
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav):focus-visible .etichetta-nav { opacity: 1; transform: scale(1); }
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav):hover .icona-nav,
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav):focus-visible .icona-nav { opacity: 0; transform: scale(.4) rotate(-25deg); }
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav):hover .etichetta-nav,
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav):focus-visible .etichetta-nav { opacity: 1; transform: scale(1); }
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav):hover .icona-nav,
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav):focus-visible .icona-nav { opacity: 0; transform: scale(.4) rotate(-25deg); }
 /* Icona del link attivo: riprende il gradiente brand al posto del clip-text */
-#nav-desk > a[attivo=\"si\"]:not(#link-bozza-nav) .icona-nav {
+#nav-desk > a[attivo="si"]:not(#link-bozza-nav) .icona-nav {
   background: linear-gradient(90deg, var(--viola), var(--ciano));
   -webkit-background-clip: text; background-clip: text;
   color: transparent; -webkit-text-fill-color: transparent;
