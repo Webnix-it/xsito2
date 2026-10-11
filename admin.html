@@ -39,7 +39,7 @@
         <a href="faq.html" aria-label="FAQ"><span class="etichetta-nav">FAQ</span><i class="fa-solid fa-circle-question icona-nav" aria-hidden="true"></i></a>
         <a href="assistenza.html" aria-label="Assistenza"><span class="etichetta-nav">Assistenza</span><i class="fa-solid fa-screwdriver-wrench icona-nav" aria-hidden="true"></i></a>
         <a href="chi-siamo.html" aria-label="Chi Siamo"><span class="etichetta-nav">Chi Siamo</span><i class="fa-solid fa-users icona-nav" aria-hidden="true"></i></a>
-        <a href="contatti.html" aria-label="Contatti"><span class="etichetta-nav">Contatti</span><i class="fa-solid fa-envelope icona-nav" aria-hidden="true"></i></a>
+        <a href="chi-siamo.html#infoContactsSection" aria-label="Contatti"><span class="etichetta-nav">Contatti</span><i class="fa-solid fa-envelope icona-nav" aria-hidden="true"></i></a>
         <a href="admin.html" attivo="si" aria-label="Area Admin" title="Area Admin"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></a>
         <a id="link-bozza-nav" href="index.html#contatti"><span id="bozza-norme">Bozza Gratuita</span><span id="bozza-hover">In 48h, gratis →</span></a>
     </nav>
@@ -59,7 +59,7 @@
         <a href="faq.html"><i class="fa-solid fa-circle-question" aria-hidden="true"></i>FAQ</a>
         <a href="assistenza.html"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>Assistenza</a>
         <a href="chi-siamo.html"><i class="fa-solid fa-users" aria-hidden="true"></i>Chi Siamo</a>
-        <a href="contatti.html"><i class="fa-solid fa-envelope" aria-hidden="true"></i>Contatti</a>
+        <a href="chi-siamo.html#infoContactsSection"><i class="fa-solid fa-envelope" aria-hidden="true"></i>Contatti</a>
         <a href="admin.html"><i class="fa-solid fa-user-shield" aria-hidden="true"></i>Admin</a>
       </nav>
       <a id="bottone-bozza-drawer" href="index.html#contatti">
@@ -67,54 +67,26 @@
       </a>
     </aside>
 
-    <section id="banda-pagina">
-      <h1>Area Admin</h1>
-      <p>Gestione recensioni del sito. I dati seguono la struttura Firebase: name, text, url, stars, timestamp.</p>
-    </section>
-
-    <section id="sezione-admin" class="sezione-comune">
-      <div id="pannello-admin">
-        <p id="stato-admin" reveal><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Stato: connessione al database in corso…</p>
-
-        <!-- Nuovo inserimento manuale (scrive via REST PUT su config.firebase) -->
-        <form id="modulo-admin-recensione" reveal delay="1" style="background:#161b22;border-radius:16px;padding:28px;margin-bottom:30px;border:1px solid rgba(255,255,255,.08);">
-          <h3 style="margin-bottom:18px;"><i class="fa-solid fa-plus" aria-hidden="true"></i> Aggiungi recensione</h3>
-          <div class="campo-modulo">
-            <label for="admin-nome">Nome cliente <b>*</b></label>
-            <input id="admin-nome" type="text" placeholder="Es. Mario Rossi" required>
-          </div>
-          <div class="campo-modulo">
-            <label for="admin-stelle">Stelle <b>*</b></label>
-            <select id="admin-stelle">
-              <option value="5">★★★★★ (5)</option>
-              <option value="4">★★★★ (4)</option>
-              <option value="3">★★★ (3)</option>
-              <option value="2">★★ (2)</option>
-              <option value="1">★ (1)</option>
-            </select>
-          </div>
-          <div class="campo-modulo">
-            <label for="admin-url">Link progetto (opzionale)</label>
-            <input id="admin-url" type="url" placeholder="https://...">
-          </div>
-          <div class="campo-modulo">
-            <label for="admin-testo">Testo recensione (max 1000 caratteri) <b>*</b></label>
-            <textarea id="admin-testo" maxlength="1000" placeholder="Cosa ha detto il cliente..."></textarea>
-            <p id="contatore-caratteri"></p>
-          </div>
-          <button class="btn_seleziona" type="submit" id="pulsante-invio">Salva recensione nel database</button>
-          <p id="messaggio-modulo" role="status"></p>
-        </form>
-
-        <!-- Elenco locale (localStorage) come demo/offline -->
-        <div id="box-info-contatti" reveal delay="2">
-          <h3 style="margin-bottom:14px;">Recensioni salvate localmente (demo offline)</h3>
-          <div id="griglia-recensioni"></div>
-          <p id="avviso-demo-recensioni"></p>
-          <p style="margin-top:18px;"><button id="bottone2" type="button"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> Svuota elenco locale</button></p>
+    <div id="area-login-admin" style="min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;">
+      <div class="card" id="card-login-admin" reveal style="background:#161b22;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:40px 34px;width:100%;max-width:420px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.45);">
+        <div class="lock-icon" style="width:74px;height:74px;margin:0 auto 18px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(-45deg,#e81cff,#40c9ff);box-shadow:0 0 22px rgba(232,28,255,.5);font-size:30px;color:#fff;">
+          <i class="fas fa-lock" aria-hidden="true"></i>
         </div>
+        <h2 style="color:#fff;margin-bottom:24px;font-size:1.6rem;">Accedi come Admin</h2>
+
+        <!-- Form Login -->
+        <form id="loginForm" style="display:flex;flex-direction:column;gap:14px;">
+          <input type="email" id="email" placeholder="Email" required style="padding:13px 15px;border-radius:10px;border:1px solid #30363d;background:#0d1117;color:#fff;font-size:1em;" />
+          <input type="password" id="password" placeholder="Password" required style="padding:13px 15px;border-radius:10px;border:1px solid #30363d;background:#0d1117;color:#fff;font-size:1em;" />
+          <input type="submit" value="Entra" class="zoom-button" style="padding:14px;border:none;border-radius:10px;background:linear-gradient(-45deg,#e81cff,#40c9ff);color:#fff;font-weight:bold;font-size:1.05em;cursor:pointer;" />
+        </form>
       </div>
-    </section>
+
+      <br>
+      <p style="color: red; font-weight: bold; text-align: center; font-size: 18px; background-color: #ffe6e600; padding: 10px; border: 2px solid red; border-radius: 8px; margin: 20px 0;">
+        ⚠️ Accesso riservato esclusivamente allo staff e al personale autorizzato.
+      </p>
+    </div>
 
     <!-- ============ FOOTER ============ -->
         <footer id="footer">
@@ -246,6 +218,39 @@
 
   <script src="config.js"></script>
   <script src="script.js"></script>
-  <script src="admin.js"></script>
+
+  <!-- Firebase + Script -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVJ9M5tsuL06Lew9xPvn8beJIlar1Ee0w",
+      authDomain: "recensioni-a1b26.firebaseapp.com",
+      databaseURL: "https://recensioni-a1b26-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "recensioni-a1b26",
+      storageBucket: "recensioni-a1b26.firebasestorage.app",
+      messagingSenderId: "699758703249",
+      appId: "1:699758703249:web:c73a6041000cd313720530"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          window.location.href = 'gestione-recensioni.html';
+        })
+        .catch((error) => {
+          alert("Errore di accesso: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>
