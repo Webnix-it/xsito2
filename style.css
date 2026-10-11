@@ -243,9 +243,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
   color: transparent; -webkit-text-fill-color: transparent;
 }
 
-/* Link Admin: solo icona scudo, in un cerchietto dedicato */
+/* Link Admin: scritta + icona scudo come gli altri link (scambio in hover) */
 #nav-desk > a[href="admin.html"] {
-  padding: .55em .8em;
+  padding: .55em .9em;
   display: inline-flex; align-items: center; justify-content: center;
 }
 #nav-desk > a[href="admin.html"] i { font-size: 1.05rem; line-height: 1; }
